@@ -1,0 +1,17 @@
+
+
+<div class="content">
+  <div class="welcome splash-container">
+    <div class="splash">
+      <form class="pure-form"> {{!-- submit={{action 'submitForm'}}>--}}
+        <h1 class="splash-head">
+          <label for="name">I want to bracketize </label>
+          {{input type='text' id='name' class='underlined' value=bracketName}}
+          <button type="submit" {{action 'submitForm' bracketName}}><i class="fa fa-arrow-circle-right"></i></button>
+        </h1>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{outlet}}

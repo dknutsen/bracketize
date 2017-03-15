@@ -1,5 +1,32 @@
 # bracketize
 
+### Main page
+large format text with stylized underline `<input>`: "I want to bracketize `_________`. -> `bracket_name`
+On submit, check authentication
+  - if not authenticated go to login w encodeURIComponent query param `bracket_name`
+  - if authenticated, go to create bracket route with query param `bracket_name`
+
+### login
+for starters just use google, add facebook, etc. later 
+
+### create bracket
+  - `# contestants`: powers of two from 2 to... 64? 128?
+  - `
+  - `visibility`: private (only i can see it), secret (anyone can see but they need a link), public (anyone can see it)
+
+### my brackets
+list of brackets that i have created with edit/delete buttons and a button to add a new bracket
+
+### public brackets
+
+
+
+
+
+
+
+
+
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 

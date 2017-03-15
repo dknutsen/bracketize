@@ -1,0 +1,53 @@
+
+.pure-menu-heading {
+  text-transform: none;
+}
+
+.content-wrapper {
+  margin-top: 36px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.welcome input.underlined
+{
+  border:0;
+  border-bottom:solid 3px #000;
+  outline:none; /* prevents textbox highlight in chrome */
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: -0.15em;
+}
+.welcome button {
+  background-color: white;
+  outline: none;
+  border: none;
+}
+
+
+.splash-container {
+    background: #1f8dd6;
+}
+.splash {
+    /* absolute center .splash within .splash-container */
+    width: 80%;
+    height: 50%;
+    margin: auto;
+    position: absolute;
+    top: 100px; left: 0; bottom: 0; right: 0;
+    text-align: center;
+}
+/* This is the main heading that appears on the blue section */
+.splash-head {
+  font-size: 2em;
+  font-weight: bold;
+/*
+  border: 3px solid black;
+*/ 
+  padding: 1em 1.6em;
+  font-weight: 100;
+  border-radius: 5px;
+  line-height: 1em;
+}

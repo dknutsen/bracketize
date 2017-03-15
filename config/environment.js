@@ -1,5 +1,7 @@
 /* jshint node: true */
 
+require('dotenv').load();
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'bracketize',
@@ -20,7 +22,28 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    torii: {
+      sessionServiceName: 'session'
+    },
+
+    firebase: {
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+    },
+
+    contentSecurityPolicy: {
+      'script-src': "'self' liveReloadPort 'unsafe-eval' apis.google.com *.googleapis.com maps.gstatic.com",
+      'frame-src': "'self' https://*.firebaseapp.com",
+      'connect-src': "'self' liveReloadPort wss://*.firebaseio.com https://*.googleapis.com maps.gstatic.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'img-src': "'self' *.googleapis.com csi.gstatic.com",
+      'style-src': "'self' 'unsafe-inline' fonts.googleapis.com"
+    },
+    //'default-src': "'none'",
   };
 
   if (environment === 'development') {

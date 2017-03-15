@@ -1,0 +1,20 @@
+<div class="content">
+  <h1>Create new bracket</h1>
+  <form class="pure-form pure-form-aligned"> {{!-- submit={{action 'submitForm'}}>--}}
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="name">Bracket name:</label>
+        {{input type='text' id='name' value=name}}
+      </div>
+
+      <div class="pure-control-group">
+        <label for="numContenders"># of Contenders:</label>
+        {{#x-select value=numContenders action=(action (mut numContenders)) as |xs|}}
+          {{#each numContendersOptions as |numContendersOption|}}
+            {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
+          {{/each}}
+        {{/x-select}}
+      </div>
+    </fieldset>
+  </form>
+</div>

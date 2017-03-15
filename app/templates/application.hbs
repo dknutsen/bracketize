@@ -1,5 +1,23 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
+<div class="header">
+  <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <a class="pure-menu-heading" href="">[bracketize]</a>
+    <ul class="pure-menu-list">
 
+      <li class="pure-menu-item">
+      {{#if session.isAuthenticated}}
+        {{!--Logged in as --}}{{session.currentUser.displayName}}
+        <a {{action "signOut"}} class="pure-menu-link">{{fa-icon 'sign-out'}} Sign Out</a>
+      {{/if}}
+      </li>
+    </ul>
+  </div>
+</div>
+
+{{!--<div id="app-content">--}}
+<div class="content-wrapper">
 {{outlet}}
+</div>
+
+<div id="footer">
+
+</div>

@@ -1,0 +1,28 @@
+<div class='page-header'>  
+    <h1>Sign Up</h1>
+</div>  
+{{input
+    type='text'
+    class='form-control'
+    value=email
+    placeholder='email'
+}}
+{{input
+    type='password'
+    class='form-control'
+    value=password
+    placeholder='password'
+}}
+<button class='btn btn-default' {{action 'signUp'}}>{{fa-icon 'user-plus'}} Sign Up</button>  
+
+{{error}}
+
+<div>
+<h3>Or</h3>
+
+{{!--  <button {{action "signIn" "password"}}>Sign in with Email</button> --}}
+  <button {{action "signIn" "google"}}>Sign in with Google</button>
+  <button {{action "signIn" "twitter"}}>Sign in with Twitter</button>
+  <button {{action "signIn" "facebook"}}>Sign in with Facebook</button>
+  <button {{action "signIn" "github"}}>Sign in with Github</button>
+</div>
