@@ -1,20 +1,33 @@
-<div class="content">
-  <h1>Create new bracket</h1>
-  <form class="pure-form pure-form-aligned"> {{!-- submit={{action 'submitForm'}}>--}}
-    <fieldset>
-      <div class="pure-control-group">
-        <label for="name">Bracket name:</label>
-        {{input type='text' id='name' value=name}}
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3">
 
-      <div class="pure-control-group">
-        <label for="numContenders"># of Contenders:</label>
-        {{#x-select value=numContenders action=(action (mut numContenders)) as |xs|}}
-          {{#each numContendersOptions as |numContendersOption|}}
-            {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
-          {{/each}}
-        {{/x-select}}
-      </div>
-    </fieldset>
-  </form>
+      {{#bs-form formLayout="horizontal" model=this onSubmit=(action "submit") as |form|}}
+        <h1>Create new bracket</h1>
+
+        {{form.element controlType="text" label="Name" placeholder="Bracket name" property="name" required=true }}
+
+        {{#form.element label="Contenders" property="numContenders" as |el|}}
+          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+            {{#each numContendersOptions as |numContendersOption|}}
+              {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
+            {{/each}}
+          {{/x-select}}
+        {{/form.element}}
+
+        {{#form.element label="Bracket type" property="type" as |el|}}
+          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+            {{#each typeOptions as |typeOption|}}
+              {{#xs.option value=typeOption}}{{typeOption}}{{/xs.option}}
+            {{/each}}
+          {{/x-select}}
+        {{/form.element}}
+
+        {{form.element controlType="checkbox" label="Blind bracket" property="blind"}}
+
+        {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+      {{/bs-form}}
+
+    </div>
+  </div>
 </div>

@@ -1,9 +1,9 @@
 
-
-<div class="content">
+{{!-- jumbotron.container.formgroup.splash-head
+<div class="content fill">
   <div class="welcome splash-container">
     <div class="splash">
-      <form class="pure-form"> {{!-- submit={{action 'submitForm'}}>--}}
+      <form class="pure-form">
         <h1 class="splash-head">
           <label for="name">I want to bracketize </label>
           {{input type='text' id='name' class='underlined' value=bracketName}}
@@ -13,5 +13,22 @@
     </div>
   </div>
 </div>
+--}}
+
+
+<div class="welcome d-flex flex-column justify-content-center">
+  <div class="container d-flex justify-content-center">
+  <div class="jumbotron">
+      <form class="form-group">
+        <h1 class="splash-head">
+          <label for="name">I want to bracketize </label>
+          {{input type='text' id='name' class='underlined' value=bracketName}}
+          <button type="submit" {{action 'submitForm' bracketName}}><i class="fa fa-arrow-circle-right"></i></button>
+        </h1>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 {{outlet}}

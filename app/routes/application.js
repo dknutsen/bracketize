@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../config/environment';
 
 export default Ember.Route.extend({
   firebaseApp: Ember.inject.service(),
@@ -20,6 +21,7 @@ export default Ember.Route.extend({
   actions: {
     // this is for non-firebase login
     signIn: function(provider) {
+console.log(ENV);
       var self = this;
       this.get('session').open('firebase', { provider: provider}).then(function(data) {
         console.log(data.currentUser);

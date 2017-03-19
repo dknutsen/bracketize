@@ -1,20 +1,18 @@
-<div class="header">
-  <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-    <a class="pure-menu-heading" href="">[bracketize]</a>
-    <ul class="pure-menu-list">
-
-      <li class="pure-menu-item">
-      {{#if session.isAuthenticated}}
-        {{!--Logged in as --}}{{session.currentUser.displayName}}
-        <a {{action "signOut"}} class="pure-menu-link">{{fa-icon 'sign-out'}} Sign Out</a>
-      {{/if}}
-      </li>
-    </ul>
+{{#bs-navbar position="fixed-top" as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle align="right"}}
+    {{#link-to "welcome" class="navbar-brand mr-auto"}}[bracketize]{{/link-to}}
   </div>
-</div>
+  {{#navbar.content}}
+    {{#navbar.nav class="ml-auto" as |nav|}}
+      {{#nav.item}}<span class="navbar-text">{{session.currentUser.displayName}}</span>{{/nav.item}}
+      {{#nav.item}}<a {{action "signOut"}} class="nav-link">{{fa-icon 'sign-out'}} Sign Out</a>{{/nav.item}}
+    {{/navbar.nav}}
+  {{/navbar.content}}
+{{/bs-navbar}}
 
-{{!--<div id="app-content">--}}
-<div class="content-wrapper">
+
+<div class="main-container">
 {{outlet}}
 </div>
 

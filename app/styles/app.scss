@@ -1,0 +1,14 @@
+@import "ember-bootstrap/bootstrap";
+@import 'welcome';
+@import 'brackets/new';
+
+.main-container {
+  margin-top: 3rem;
+}
+
+.navbar {
+  box-shadow: 0 4px 3px -3px grey;
+  -webkit-box-shadow: 0 4px 3px -3px grey;
+  -moz-box-shadow: 0 4px 3px -3px grey;
+}
+
