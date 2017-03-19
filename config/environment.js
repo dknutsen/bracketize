@@ -1,6 +1,6 @@
 /* jshint node: true */
 
-require('dotenv').load();
+require('dotenv').load({path:'./config/.env'});
 
 module.exports = function(environment) {
   var ENV = {
