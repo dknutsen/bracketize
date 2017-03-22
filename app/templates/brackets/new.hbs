@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
       {{#bs-form formLayout="horizontal" model=this onSubmit=(action "submit") as |form|}}
         <h1>Create new bracket</h1>
@@ -23,11 +23,24 @@
           {{/x-select}}
         {{/form.element}}
 
+        {{#form.element label="Visibility" property="visibility" as |el|}}
+          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+            {{#each visibilityOptions as |visibilityOption|}}
+              {{#xs.option value=visibilityOption}}{{visibilityOption}}{{/xs.option}}
+            {{/each}}
+          {{/x-select}}
+        {{/form.element}}
+
         {{form.element controlType="checkbox" label="Blind bracket" property="blind"}}
 
         {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
       {{/bs-form}}
-
     </div>
+
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+      {{contender-editor}}
+    </div>
+
   </div>
 </div>

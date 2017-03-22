@@ -1,9 +1,10 @@
 @import "ember-bootstrap/bootstrap";
 @import 'welcome';
 @import 'brackets/new';
+@import 'components/contender-editor';
 
 .main-container {
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 .navbar {

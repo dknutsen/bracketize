@@ -1,0 +1,57 @@
+$header-height: 38px;
+$content-height: 300px;
+$footer-height: 38px;
+
+
+.contender-editor {
+  border: 1px solid black;
+
+  textarea {
+    width: 100%;
+    height: $content-height;
+    max-height: $content-height;
+  }
+
+  td button {
+    font-size: 12px;
+    padding: 5px 15px;
+  }
+ 
+  .table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 100%;
+    max-height: $content-height;
+
+    table {display: block;}
+/*
+    table {
+      width: 100%;
+    }
+    thead, tbody, tr, td, th { display: block; }
+*/
+/*
+    tr:after {
+      content: ' ';
+      display: block;
+      visibility: hidden;
+      clear: both;
+    }
+    thead th {
+    }
+    tbody {
+      height: 120px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+    thead {
+    }
+    tbody td, thead th {
+      width: 50px;
+      float: left;
+    }
+*/
+
+
+  }
+}

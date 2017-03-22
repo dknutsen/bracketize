@@ -1,0 +1,43 @@
+<div class="contender-editor">
+{{#if quickInput}}
+
+  {{#bs-tab onChange=(action 'tabChanged') as |tab|}}
+    {{#tab.pane id="csvTab" title="CSV"}}
+      {{textarea value=inputText class="csv-textarea"}}
+    {{/tab.pane}}
+    {{#tab.pane id="jsonTab" title="JSON"}}
+      {{textarea value=inputText class="json-textarea"}}
+    {{/tab.pane}}
+  {{/bs-tab}}
+
+  <button class="btn btn-primary" {{action 'saveQuickInput'}}>Save</button>
+
+{{else}}
+
+  <a class="" {{action 'startQuickInput'}}>Quick edit contenders (JSON/CSV)</a>
+  <div class="table-scroll-wrapper">
+    <table class="table table-hover table-striped table-responsive">
+      <thead class="thead-inverse">
+        <tr>
+          {{#each-in headers as |header prop|}}
+          <th>{{header}}</th>
+          {{/each-in}}
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each contenders as |contender index|}}
+        <tr>
+          {{#each-in headers as |header prop|}}
+          <td>{{get contender prop}}</td>
+          {{/each-in}}
+          <td><button class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{!-- winner could use   <td class="table-success">...</td>  --}}
+
+{{/if}}
+</div>

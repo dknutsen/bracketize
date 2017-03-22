@@ -3,14 +3,14 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   name: DS.attr('string'),
 
- // Bracket Type 
- // voted - Voted is like the beer bracket, to determine who wins. 
- //         With voted each user votes on who the winner was. 
- //         With predictive the users predict who the winner will be.
- // predictive - Predictive is to predict who wins (contender wins). 
- //              Closest predictive bracket wins (contender wins and 
- //              causes a user to win). 
- type: DS.attr('string'),
+  // Bracket Type 
+  // voted - Voted is like the beer bracket, to determine who wins. 
+  //         With voted each user votes on who the winner was. 
+  //         With predictive the users predict who the winner will be.
+  // predictive - Predictive is to predict who wins (contender wins). 
+  //              Closest predictive bracket wins (contender wins and 
+  //              causes a user to win). 
+  type: DS.attr('string'),
  
   // Blind? 
   // if blind then instead of showing contender names(/data?) it shows
