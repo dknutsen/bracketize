@@ -19,6 +19,15 @@ $footer-height: 38px;
     max-height: $content-height;
   }
 
+  th, td {
+    padding: 0.25rem;
+    white-space: nowrap;
+    input {
+      font-size: 0.75rem;
+      width: 5rem;
+    }
+  }
+
   td button {
     font-size: 12px;
     padding: 5px 15px;

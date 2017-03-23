@@ -3,10 +3,10 @@
 
   {{#bs-tab onChange=(action 'tabChanged') as |tab|}}
     {{#tab.pane id="csvTab" title="CSV"}}
-      {{textarea value=inputText class="csv-textarea"}}
+      {{textarea value=csvInputText class="csv-textarea"}}
     {{/tab.pane}}
     {{#tab.pane id="jsonTab" title="JSON"}}
-      {{textarea value=inputText class="json-textarea"}}
+      {{textarea value=jsonInputText class="json-textarea"}}
     {{/tab.pane}}
   {{/bs-tab}}
 
@@ -19,7 +19,6 @@
   <button class="btn btn-info" {{action 'startQuickInput'}}>Quick edit</button>
   <div id="contender-buttons">
     <button class="btn btn-success" {{action 'addColumn'}}>+ Column</button>
-    <button class="btn btn-success" {{action 'addRow'}}>+ Row</button>
   </div>
 
   <div class="table-scroll-wrapper">
@@ -27,7 +26,15 @@
       <thead>
         <tr>
           {{#each-in headers as |header prop|}}
-          <th>{{header}}<a style="white-space: nowrap" {{action 'deleteColumn' prop}}> <i class="fa fa-times"></i></a></th>
+            {{#if (eq prop 'name')}}
+            <th>Name</th>
+            {{else}}
+              {{#if (eq editingColumn prop)}}
+              <th>{{input value=editingColumnValue}} <a {{action 'doneEditingColumnName' header prop}}><i class="fa fa-check"></i></a></th>
+              {{else}}
+              <th><a {{action 'editColumnName' header prop}}>{{header}}</a> <a {{action 'deleteColumn' prop}}><i class="fa fa-times"></i></a></th>
+              {{/if}}
+            {{/if}}
           {{/each-in}}
           <th></th>
         </tr>
@@ -36,9 +43,9 @@
         {{#each contenders as |contender index|}}
         <tr>
           {{#each-in headers as |header prop|}}
-          <td>{{get contender prop}}</td>
+          {{!--<td>{{get contender prop}}</td>--}}
+          <td>{{input value=(mut (get contender prop))}}</td>
           {{/each-in}}
-          <td><button class="btn btn-danger" {{action 'deleteRow' index}}><i class="fa fa-times"></i></button></td>
         </tr>
         {{/each}}
       </tbody>

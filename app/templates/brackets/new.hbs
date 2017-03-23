@@ -11,7 +11,8 @@
             {{form.element controlType="text" label="Name" placeholder="Bracket name" property="name" required=true }}
 
             {{#form.element label="Contenders" property="numContenders" as |el|}}
-              {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+              {{!--{{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}--}}
+              {{#x-select value=el.value id=el.id action=(action 'numContendersChanged') class="form-control" as |xs|}}
                 {{#each numContendersOptions as |numContendersOption|}}
                   {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
                 {{/each}}
@@ -44,7 +45,7 @@
         <div class="card">
           <h4 class="card-title card-header">Edit contenders</h4>
           <div class="card-block">
-            {{contender-editor}}
+            {{contender-editor contenders=contenders columns=columns addColumn="addColumn" deleteColumn="deleteColumn" columnNameChanged="columnNameChanged"}}
           </div>
         </div>
       </div>
