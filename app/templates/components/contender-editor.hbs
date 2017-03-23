@@ -10,17 +10,24 @@
     {{/tab.pane}}
   {{/bs-tab}}
 
-  <button class="btn btn-primary" {{action 'saveQuickInput'}}>Save</button>
-
+  <div id="contender-buttons">
+    <button class="btn btn-danger top-right" {{action 'saveQuickInput'}}>Cancel</button>
+    <button class="btn btn-primary top-right" {{action 'cancelQuickInput'}}>Save</button>
+  </div>
 {{else}}
 
-  <a class="" {{action 'startQuickInput'}}>Quick edit contenders (JSON/CSV)</a>
+  <button class="btn btn-info" {{action 'startQuickInput'}}>Quick edit</button>
+  <div id="contender-buttons">
+    <button class="btn btn-success" {{action 'addColumn'}}>+ Column</button>
+    <button class="btn btn-success" {{action 'addRow'}}>+ Row</button>
+  </div>
+
   <div class="table-scroll-wrapper">
     <table class="table table-hover table-striped table-responsive">
-      <thead class="thead-inverse">
+      <thead>
         <tr>
           {{#each-in headers as |header prop|}}
-          <th>{{header}}</th>
+          <th>{{header}}<a style="white-space: nowrap" {{action 'deleteColumn' prop}}> <i class="fa fa-times"></i></a></th>
           {{/each-in}}
           <th></th>
         </tr>
@@ -31,7 +38,7 @@
           {{#each-in headers as |header prop|}}
           <td>{{get contender prop}}</td>
           {{/each-in}}
-          <td><button class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+          <td><button class="btn btn-danger" {{action 'deleteRow' index}}><i class="fa fa-times"></i></button></td>
         </tr>
         {{/each}}
       </tbody>

@@ -1,46 +1,57 @@
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
-      {{#bs-form formLayout="horizontal" model=this onSubmit=(action "submit") as |form|}}
-        <h1>Create new bracket</h1>
+  {{#bs-form formLayout="horizontal" model=this onSubmit=(action "submit") as |form|}}
+    <h1>Create new bracket</h1>
 
-        {{form.element controlType="text" label="Name" placeholder="Bracket name" property="name" required=true }}
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="card">
+          <h4 class="card-title card-header">Bracket basics</h4>
+          <div class="card-block">
+            {{form.element controlType="text" label="Name" placeholder="Bracket name" property="name" required=true }}
 
-        {{#form.element label="Contenders" property="numContenders" as |el|}}
-          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
-            {{#each numContendersOptions as |numContendersOption|}}
-              {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
-            {{/each}}
-          {{/x-select}}
-        {{/form.element}}
+            {{#form.element label="Contenders" property="numContenders" as |el|}}
+              {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+                {{#each numContendersOptions as |numContendersOption|}}
+                  {{#xs.option value=numContendersOption}}{{numContendersOption}}{{/xs.option}}
+                {{/each}}
+              {{/x-select}}
+            {{/form.element}}
 
-        {{#form.element label="Bracket type" property="type" as |el|}}
-          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
-            {{#each typeOptions as |typeOption|}}
-              {{#xs.option value=typeOption}}{{typeOption}}{{/xs.option}}
-            {{/each}}
-          {{/x-select}}
-        {{/form.element}}
+            {{#form.element label="Bracket type" property="type" as |el|}}
+              {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+                {{#each typeOptions as |typeOption|}}
+                  {{#xs.option value=typeOption}}{{typeOption}}{{/xs.option}}
+                {{/each}}
+              {{/x-select}}
+            {{/form.element}}
 
-        {{#form.element label="Visibility" property="visibility" as |el|}}
-          {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
-            {{#each visibilityOptions as |visibilityOption|}}
-              {{#xs.option value=visibilityOption}}{{visibilityOption}}{{/xs.option}}
-            {{/each}}
-          {{/x-select}}
-        {{/form.element}}
+            {{#form.element label="Visibility" property="visibility" as |el|}}
+              {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+                {{#each visibilityOptions as |visibilityOption|}}
+                  {{#xs.option value=visibilityOption}}{{visibilityOption}}{{/xs.option}}
+                {{/each}}
+              {{/x-select}}
+            {{/form.element}}
 
-        {{form.element controlType="checkbox" label="Blind bracket" property="blind"}}
+            {{form.element controlType="checkbox" label="Create bracket" property="blind"}}
+          </div>
+        </div>
+      </div>
 
-        {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
-      {{/bs-form}}
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="card">
+          <h4 class="card-title card-header">Edit contenders</h4>
+          <div class="card-block">
+            {{contender-editor}}
+          </div>
+        </div>
+      </div>
+
     </div>
 
+    {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+  {{/bs-form}}
 
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-      {{contender-editor}}
-    </div>
-
-  </div>
 </div>

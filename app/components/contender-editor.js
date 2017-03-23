@@ -37,17 +37,9 @@ export default Ember.Component.extend({
       }
     }); 
     return headers;
-  }.property('contenders'),
+  }.property('contenders', 'contenders.[]'),
   contenders: [
-    {aqwe:1, bhlj:2, djklj:4, e:5},
-    {aqwe:1, bhlj:2, jkj:4, e:5},
-    {aqwe:1, bhlj:2, djl:4, e:5},
-    {aqwe:1, bhj:2, djklj:4, e:5},
-    {aqwe:1, bhj:2, dlj:4, e:5},
-    {a:0, b:0, c:0, d:0},
-    {a:0, b:0, c:0, d:0},
-    {a:0, b:0, c:0, d:0},
-    {a:0, b:0, c:0, d:0},
+    {apple:1, pear:2, lemon:4, e:5},
     {a:0, b:0, c:0, d:0},
     {a:"q", b:"b", c:"c", d:"d", e:"e"}
   ],
@@ -62,6 +54,32 @@ export default Ember.Component.extend({
     },
     saveQuickInput: function(){
       this.set('quickInput', false);
+    },
+    cancelQuickInput: function(){
+      this.set('quickInput', false);
+    },
+    addColumn: function(){
+
+    },
+    deleteColumn: function(prop){
+      let contenders = this.get('contenders');
+      contenders.forEach((contender)=>{
+        delete contender[prop];
+      });
+      this.set('conteders', contenders);
+    },
+    addRow: function(){
+      let headers = this.get('headers');
+      let newRow = {};
+      for (var property in headers) {
+        if (headers.hasOwnProperty(property)) {
+          newRow[property] = "";
+        }
+      }
+      this.get('contenders').pushObject(newRow);
+    },
+    deleteRow: function(index){
+      this.get('contenders').removeAt(index);
     }
   }
 });

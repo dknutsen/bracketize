@@ -4,7 +4,14 @@ $footer-height: 38px;
 
 
 .contender-editor {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  position: relative;
+
+  #contender-buttons {
+    position:absolute; 
+    right:0; 
+    top:0;
+  }
 
   textarea {
     width: 100%;
