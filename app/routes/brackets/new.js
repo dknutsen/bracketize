@@ -16,6 +16,6 @@ export default Ember.Route.extend({
     },
     visibility: {
       replace: true,
-    }
+    },
   }
 });

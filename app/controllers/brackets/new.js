@@ -3,10 +3,10 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   queryParams: ['name', 'numContenders', 'blind', 'type', 'visibility'],
   name: null,
-  blind: null, 
+  blind: false, 
   numContendersOptions: [2, 4, 8, 16, 32, 64],
   numContenders: 16,
-  typeOptions: ["Voted", "Predictive"],
+  typeOptions: ["Voted"/*, "Predictive"*/],
   type: "Voted",
   visibilityOptions: ["Private", "Shared", "Public"],
   visibility: "Private",
@@ -57,14 +57,46 @@ export default Ember.Controller.extend({
       });
     },
     submit: function(form){
-      console.log("REPLACE THIS WITH A RECORD CREATE");
-      console.log({
-        name: form.name,
-        blind: form.blind,
-        contenders: form.contenders,
-        type: form.type,
-        visibility: form.visibility
+      let self = this;
+
+      let name = form.name;
+      let owner = this.get('session.uid');
+      let blind = form.blind;
+      let type = form.type;
+      let visibility = form.visibility;
+
+      // do validation?
+
+      let bracket = this.store.createRecord('bracket', {
+        name,
+        owner,
+        blind,
+        type,
+        visibility
       });
+
+      let contenders = this.get('contenders');
+      let cModels = contenders.map((contender) => {
+        let {name, ...attributes} = contender;
+        let cModel = self.store.createRecord('contender', {
+          owner,
+          name,
+          attributes
+        });
+        // add the contender to the bracket
+        bracket.get('contenders').addObject(cModel);
+        // save the contender, then the post
+        cModel.save().then(function() {
+          return bracket.save();
+        });
+        return cModel;
+      });
+
+
+      // add contenders to bracket
+      //bracket.save();
+
+      this.transitionToRoute('bracket', bracket);
     },
   }
 });

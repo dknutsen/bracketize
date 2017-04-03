@@ -11,6 +11,8 @@ Router.map(function() {
   this.route('signup');
   this.route('welcome', {path: '/'});
 
+  // brackets
+  this.route('bracket',  {path:'/brackets/:id'});
   this.authenticatedRoute('brackets', function() {
     this.route('new');
   });

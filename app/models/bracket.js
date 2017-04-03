@@ -3,6 +3,8 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   name: DS.attr('string'),
 
+  owner: DS.attr('string'),
+
   // Bracket Type 
   // voted - Voted is like the beer bracket, to determine who wins. 
   //         With voted each user votes on who the winner was. 
@@ -26,7 +28,7 @@ export default DS.Model.extend({
   // - open: new users can join, bracket settings can be changed
   // - started/roundX: bracket settings cannot change, no noobs
   // - closed: view only, bracket is done
-  status: DS.attr(),
+  status: DS.attr('string'),
   
   // Bracket Permissions
   // who can see this bracket (private, shared, public)
@@ -34,7 +36,7 @@ export default DS.Model.extend({
   // who can participate in this bracket (private, shared, public)
   interactivity: DS.attr('string'),
 
-
+  contenders: DS.hasMany('contender', { async: true, inverse: null }),
 
   rounds: function(){
     let numContenders = this.get('numContenders');
@@ -60,6 +62,7 @@ export default DS.Model.extend({
       roundCount++;
       numContenders /= 2;
     }
+    return rounds;
   }.property('numContenders'),
 
   numContenders: function(){

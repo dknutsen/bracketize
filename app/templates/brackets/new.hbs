@@ -35,7 +35,7 @@
               {{/x-select}}
             {{/form.element}}
 
-            {{form.element controlType="checkbox" label="Create bracket" property="blind"}}
+            {{form.element controlType="checkbox" label="Blind bracket" property="blind"}}
           </div>
         </div>
       </div>
@@ -45,14 +45,20 @@
         <div class="card">
           <h4 class="card-title card-header">Edit contenders</h4>
           <div class="card-block">
-            {{contender-editor contenders=contenders columns=columns addColumn="addColumn" deleteColumn="deleteColumn" columnNameChanged="columnNameChanged"}}
+            {{contender-editor
+              contenders=contenders
+              columns=columns 
+              addColumn="addColumn" 
+              deleteColumn="deleteColumn" 
+              columnNameChanged="columnNameChanged"
+            }}
           </div>
         </div>
       </div>
 
     </div>
 
-    {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+    {{bs-button defaultText="Create bracket" type="primary" buttonType="submit"}}
   {{/bs-form}}
 
 </div>

@@ -1,0 +1,66 @@
+<div class="container">
+  {{!-- header, bracket name, etc --}}
+  <h1>{{content.bracket.name}}</h1>
+
+  <div>Is Blind: {{content.bracket.isBlind}}</div>
+  <div># Contenders: {{content.bracket.numContenders}}</div>
+
+  <div>
+    <h4>Rounds</h4>
+    <ul>
+    {{#each-in content.bracket.rounds as |roundNum round|}}
+      <li>{{round.name}} - {{round.contenders}}</li>
+    {{/each-in}}
+    </ul>
+  </div>
+
+  <div>
+    <h4>Contenders</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Contender</th>
+          {{#each-in content.bracket.contenders.firstObject.attributes as |key value|}}
+          <th>{{key}}</th>
+          {{/each-in}}
+        </tr>
+      </thead>
+      <tbody>
+      {{#each content.bracket.contenders as |contender|}}
+        <tr>
+          <td>{{contender.name}}</td>
+          {{#each-in contender.attributes as |key value|}}
+            <td>{{value}}</td>
+          {{/each-in}}
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  {{!-- rounds --}}
+{{!--
+  <div class="row">
+    {{#each-in contend.bracket.rounds as |number round|}}
+    <div class="col">
+      <div class="card">
+        <h4 class="card-title card-header">{{round.name}}</h4>
+          {{#each matches by round num}}
+          <div class="row">
+            <div class="col match-contender1">
+              {{match.contender1.name}}
+            </div>
+            <div class="col match-contender2">
+              {{match.contender1.name}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each-in}}
+  </div> 
+--}}
+</div>
+
+
+{{!-- {{outlet}} --}}
