@@ -36,8 +36,8 @@ module.exports = function(environment) {
     },
 
     contentSecurityPolicy: {
-      'script-src': "'self' liveReloadPort 'unsafe-eval' apis.google.com *.googleapis.com maps.gstatic.com",
-      'frame-src': "'self' https://*.firebaseapp.com",
+      'script-src': "'self' liveReloadPort 'unsafe-eval' apis.google.com *.googleapis.com maps.gstatic.com *.firebaseio.com",
+      'frame-src': "'self' https://*.firebaseapp.com https://*.firebaseio.com",
       'connect-src': "'self' liveReloadPort wss://*.firebaseio.com https://*.googleapis.com maps.gstatic.com",
       'font-src': "'self' fonts.gstatic.com",
       'img-src': "'self' *.googleapis.com csi.gstatic.com",
