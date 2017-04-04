@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-      {{#each content.bracket.contenders as |contender|}}
+      {{#each sortedContenders as |contender|}}
         <tr>
           <td>{{contender.name}}</td>
           {{#each-in contender.attributes as |key value|}}
@@ -37,6 +37,8 @@
       </tbody>
     </table>
   </div>
+
+
 
   {{!-- rounds --}}
 {{!--

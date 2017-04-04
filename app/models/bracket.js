@@ -36,6 +36,9 @@ export default DS.Model.extend({
   // who can participate in this bracket (private, shared, public)
   interactivity: DS.attr('string'),
 
+  seedProperty: DS.attr('string'),
+  seedAscending: DS.attr('boolean'),
+
   contenders: DS.hasMany('contender', { async: true, inverse: null }),
 
   rounds: function(){

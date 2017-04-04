@@ -64,6 +64,8 @@ export default Ember.Controller.extend({
       let blind = form.blind;
       let type = form.type;
       let visibility = form.visibility;
+      let seedProperty = form.seedProperty;
+      let seedAscending = form.seedAscending;
 
       // do validation?
 
@@ -72,11 +74,14 @@ export default Ember.Controller.extend({
         owner,
         blind,
         type,
+        seedProperty,
+        seedAscending,
         visibility
       });
 
       let contenders = this.get('contenders');
       let cModels = contenders.map((contender) => {
+        // split name off from the other contender attributes
         let {name, ...attributes} = contender;
         let cModel = self.store.createRecord('contender', {
           owner,
@@ -87,14 +92,14 @@ export default Ember.Controller.extend({
         bracket.get('contenders').addObject(cModel);
         // save the contender, then the post
         cModel.save().then(function() {
+          // TODO should this be refactored so the map
+          // returns a promise array and then we .then
+          // on the promises.all or whatever and then
+          // only do this save once?
           return bracket.save();
         });
         return cModel;
       });
-
-
-      // add contenders to bracket
-      //bracket.save();
 
       this.transitionToRoute('bracket', bracket);
     },

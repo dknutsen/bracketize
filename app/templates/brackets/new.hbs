@@ -35,6 +35,16 @@
               {{/x-select}}
             {{/form.element}}
 
+            {{#form.element label="Seed column" property="seedProperty" as |el|}}
+              {{#x-select value=el.value id=el.id action=(action (mut el.value)) class="form-control" as |xs|}}
+                {{#each columns as |seedProp|}}
+                  {{#xs.option value=seedProp}}{{seedProp}}{{/xs.option}}
+                {{/each}}
+              {{/x-select}}
+            {{/form.element}}
+            
+            {{form.element controlType="checkbox" label="Seed ascending" property="seedAscending"}}
+
             {{form.element controlType="checkbox" label="Blind bracket" property="blind"}}
           </div>
         </div>
