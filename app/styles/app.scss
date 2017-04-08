@@ -1,4 +1,5 @@
 @import "ember-bootstrap/bootstrap";
+@import "pod-styles"; // for ember-component-css
 @import 'welcome';
 @import 'brackets/new';
 @import 'components/contender-editor';

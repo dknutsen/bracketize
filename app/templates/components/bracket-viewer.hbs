@@ -1,0 +1,18 @@
+{{!-- taken from Aron Duby's sweet codepen: https://codepen.io/aronduby/pen/qliuj --}}
+
+{{#each rounds as |round index|}}
+<ul class="round round-{{index}}">
+  <li class="spacer">&nbsp;</li>
+
+  {{#each round.matches as |match|}}        
+
+  <li class="game game-top {{if match.teamA.winner 'winner'}}">{{match.teamA.name}}<span>{{match.teamA.score}}</span></li>
+  <li class="game game-spacer">&nbsp;</li>
+  <li class="game game-bottom {{if match.teamB.winner 'winner'}}">{{match.teamB.name}}<span>{{match.teamB.score}}</span></li>
+
+  <li class="spacer">&nbsp;</li>
+
+  {{/each}}
+
+</ul>
+{{/each}}

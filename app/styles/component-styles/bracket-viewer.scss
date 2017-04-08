@@ -1,0 +1,65 @@
+// taken from Aron Duby's sweet codepen: https://codepen.io/aronduby/pen/qliuj
+
+& {  // ampersand refers to the component itself (parent selector)
+  display:flex;
+  flex-direction:row;
+}
+
+
+/*
+ *  Flex Layout Specifics
+*/
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:200px;
+  list-style:none;
+  padding:0;
+
+  .spacer{ 
+    flex-grow:1;
+  }
+  .spacer:first-child,
+  .spacer:last-child{ 
+    flex-grow:.5;
+  }
+  .game-spacer{
+    flex-grow:1;
+  }
+}
+
+/*
+ *  General Styles
+*/
+body{
+  font-family:sans-serif;
+  font-size:small;
+  padding:10px;
+  line-height:1.4em;
+}
+
+li.game{
+  padding-left:20px;
+
+  .winner{
+    font-weight:bold;
+  }
+
+  span{
+    float:right;
+    margin-right:5px;
+  }
+}
+
+li.game-top{ border-bottom:1px solid #aaa; }
+
+li.game-spacer{ 
+  border-right:1px solid #aaa;
+  min-height:40px;
+}
+
+li.game-bottom{ 
+  border-top:1px solid #aaa;
+}
+
