@@ -1,0 +1,26 @@
+<div class="container">
+  {{!-- header, bracket name, etc --}}
+  <h1>Contenders</h1>
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each content.contenders as |contender|}}
+        <tr>
+          <td>{{contender.name}}</td>
+          <td><button {{action 'deleteContender' contender}}>x</button></td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{{!-- {{outlet}} --}}

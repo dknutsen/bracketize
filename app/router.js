@@ -12,9 +12,15 @@ Router.map(function() {
   this.route('welcome', {path: '/'});
 
   // brackets
-  this.route('bracket',  {path:'/brackets/:id'});
+  this.authenticatedRoute('bracket',  {path:'/brackets/:id'});
   this.authenticatedRoute('brackets', function() {
     this.route('new');
+  });
+
+  // contenders
+  this.authenticatedRoute('contender',  {path:'/contenders/:id'});
+  this.authenticatedRoute('contenders', function() {
+    //this.route('new');
   });
 });
 

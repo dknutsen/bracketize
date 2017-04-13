@@ -1,0 +1,28 @@
+<div class="container">
+  {{!-- header, bracket name, etc --}}
+  <h1>Brackets</h1>
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Contenders</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each content.brackets as |bracket|}}
+        <tr>
+          <td>{{#link-to 'bracket' bracket.id}}{{bracket.name}}{{/link-to}}</td>
+          <td>{{bracket.numContenders}}</td>
+          <td><button {{action 'deleteBracket' bracket}}>x</button></td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{{!-- {{outlet}} --}}
