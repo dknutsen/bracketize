@@ -42,7 +42,7 @@ export default Ember.Controller.extend({
 
     for(var r = 1; r<numRounds; r++){
       matches = [];
-      for(m=0; m<contenders.length/(2**(r+1)); m++){
+      for(m=0; m<contenders.length/Math.pow(2, r+1); m++){
         matches.push({
           teamA: {name: "TBD", score: "-"},
           teamB: {name: "TBD", score: "-"}

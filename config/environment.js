@@ -40,7 +40,7 @@ module.exports = function(environment) {
       'frame-src': "'self' https://*.firebaseapp.com https://*.firebaseio.com",
       'connect-src': "'self' liveReloadPort wss://*.firebaseio.com https://*.googleapis.com maps.gstatic.com",
       'font-src': "'self' fonts.gstatic.com",
-      'img-src': "'self' *.googleapis.com csi.gstatic.com",
+      'img-src': "'self' *.googleapis.com csi.gstatic.com data",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com"
     },
     //'default-src': "'none'",

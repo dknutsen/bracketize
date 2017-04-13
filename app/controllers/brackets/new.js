@@ -80,7 +80,7 @@ export default Ember.Controller.extend({
       });
 
       let contenders = this.get('contenders');
-      let cModels = contenders.map((contender) => {
+      let promises = contenders.map((contender) => {
         // split name off from the other contender attributes
         let {name, ...attributes} = contender;
         let cModel = self.store.createRecord('contender', {
@@ -91,17 +91,14 @@ export default Ember.Controller.extend({
         // add the contender to the bracket
         bracket.get('contenders').addObject(cModel);
         // save the contender, then the post
-        cModel.save().then(function() {
-          // TODO should this be refactored so the map
-          // returns a promise array and then we .then
-          // on the promises.all or whatever and then
-          // only do this save once?
-          return bracket.save();
-        });
-        return cModel;
+        return cModel.save();
       });
 
-      this.transitionToRoute('bracket', bracket);
+      Ember.RSVP.all(promises).then(() => {
+        bracket.save().then(() => {
+          self.transitionToRoute('bracket', bracket.get('id'));
+        });
+      });
     },
   }
 });
