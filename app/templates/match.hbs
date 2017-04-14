@@ -1,0 +1,19 @@
+<div class="container">
+
+<h1>{{content.match.contenderA.name}} vs {{content.match.contenderB.name}}</h1>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+    {{contender-card contender=content.match.contenderA score=votesA winner=votedA contenderClicked="contenderClicked"}}
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+    {{contender-card contender=content.match.contenderB score=votesB winner=votedB contenderClicked="contenderClicked"}}
+  </div>
+</div>
+
+
+</div>
+{{!--
+{{outlet}}
+--}}

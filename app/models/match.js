@@ -1,7 +1,15 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  //contenders?
+
+  contenderA: DS.belongsTo('contender', { async: true, inverse: null }),
+  contenderB: DS.belongsTo('contender', { async: true, inverse: null }),
+  //parentA: DS.belongsTo('match'),
+  //parentB: DS.belongsTo('match'),
+
+  votes: DS.hasMany('vote', { async: true, inverse: null }),
+  //predictions: DS.hasMany('prediction'),
+
   bracket: DS.belongsTo('bracket'),
 
   round: DS.attr('number'),
@@ -14,4 +22,11 @@ export default DS.Model.extend({
 
   // computed props
   //votes: count votes relationship
+  votesA: function(){
+    return this.get('votes').filterBy('winner', this.get('contenderA.id')).get('length');
+  }.property('votes', 'votes.@each.winner'), 
+  votesB: function(){
+    return this.get('votes').filterBy('winner', this.get('contenderA.id')).get('length');
+  }.property('votes', 'votes.@each.winner'), 
+
 });

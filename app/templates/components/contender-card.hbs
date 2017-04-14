@@ -1,0 +1,13 @@
+
+<div class="card {{if winner 'card-success'}}" {{action 'contenderClicked' contender}}>
+  <h4 class="card-header">{{contender.name}} <span class="pull-right">{{score}}</span></h4>
+  <div class="card-block">
+    <ul class="list-group list-group-flush">
+      {{#each-in contender.attributes as |key value|}}
+      <li class="list-group-item">{{key}}: {{value}}</li>
+      {{/each-in}}
+    </ul>
+  </div>
+</div>
+
+

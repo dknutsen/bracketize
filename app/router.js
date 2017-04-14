@@ -12,16 +12,19 @@ Router.map(function() {
   this.route('welcome', {path: '/'});
 
   // brackets
-  this.authenticatedRoute('bracket',  {path:'/brackets/:id'});
+  this.authenticatedRoute('bracket', { path:'/brackets/:id' });
   this.authenticatedRoute('brackets', function() {
     this.route('new');
   });
 
   // contenders
-  this.authenticatedRoute('contender',  {path:'/contenders/:id'});
+  this.authenticatedRoute('contender', { path:'/contenders/:id' });
   this.authenticatedRoute('contenders', function() {
     //this.route('new');
   });
+
+  // matches
+  this.authenticatedRoute('match', { path:'/matches/:id' });
 });
 
 export default Router;
