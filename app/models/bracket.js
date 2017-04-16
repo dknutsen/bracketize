@@ -41,6 +41,9 @@ export default DS.Model.extend({
 
   contenders: DS.hasMany('contender', { async: true, inverse: null }),
 
+  rounds: DS.hasMany('round', { async: true, inverse: null }),
+
+/*
   rounds: function(){
     let numContenders = this.get('numContenders');
     let rounds = {};
@@ -67,6 +70,7 @@ export default DS.Model.extend({
     }
     return rounds;
   }.property('numContenders'),
+*/
 
   numContenders: function(){
     return this.get('contenders.length');

@@ -12,10 +12,10 @@ export default Ember.Controller.extend({
     return this.get('content.match.votes').findBy('owner', this.get('session.uid')) || false;
   }.property('content.match.votes.@each.winner', 'content.match.votes.@each.owner'),
   votedA: function(){
-    return this.get('alreadyVoted.winner.id') === this.get('content.match.contenderA.id');
+    return this.get('alreadyVoted.winner') && this.get('content.match.contenderA') && this.get('alreadyVoted.winner.id') === this.get('content.match.contenderA.id');
   }.property('alreadyVoted'),
   votedB: function(){
-    return this.get('alreadyVoted.winner.id') === this.get('content.match.contenderB.id');
+    return this.get('alreadyVoted.winner') && this.get('content.match.contenderB') && this.get('alreadyVoted.winner.id') === this.get('content.match.contenderB.id');
   }.property('alreadyVoted'),
 
   actions: {

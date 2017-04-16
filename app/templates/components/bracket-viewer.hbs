@@ -6,9 +6,15 @@
 
   {{#each round.matches as |match|}}        
 
-  <li class="game game-top {{if match.teamA.winner 'winner'}}">{{match.teamA.name}}<span>{{match.teamA.score}}</span></li>
-  <li class="game game-spacer">&nbsp;</li>
-  <li class="game game-bottom {{if match.teamB.winner 'winner'}}">{{match.teamB.name}}<span>{{match.teamB.score}}</span></li>
+  <li onclick={{action 'gotoMatch' match}} class="game game-top {{if match.winnerIsA 'winner'}} {{if match.loserIsA 'loser'}}">
+    {{#if match.contenderA}}{{match.contenderA.name}}{{else}}TBD{{/if}}
+    <span>{{match.votesA}}</span>
+  </li>
+  <li onclick={{action 'gotoMatch' match}} class="game game-spacer">&nbsp;</li>
+  <li onclick={{action 'gotoMatch' match}} class="game game-bottom {{if match.winnerIsB 'winner'}} {{if match.loserIsB 'loser'}}">
+    {{#if match.contenderB}}{{match.contenderB.name}}{{else}}TBD{{/if}}
+    <span>{{match.votesB}}</span>
+  </li>
 
   <li class="spacer">&nbsp;</li>
 
