@@ -5,8 +5,12 @@
   </div>
   {{#navbar.content}}
     {{#navbar.nav class="ml-auto" as |nav|}}
-      {{#nav.item}}<span class="navbar-text">{{session.currentUser.displayName}}</span>{{/nav.item}}
-      {{#nav.item}}<a {{action "signOut"}} class="nav-link">{{fa-icon 'sign-out'}} Sign Out</a>{{/nav.item}}
+      {{#if session.currentUser}}
+        {{#nav.item}}<span class="navbar-text">{{session.currentUser.displayName}}</span>{{/nav.item}}
+        {{#nav.item}}<a {{action "signOut"}} class="nav-link">{{fa-icon 'sign-out'}} Sign Out</a>{{/nav.item}}
+      {{else}}
+        {{#nav.item}}{{#link-to "login" class="nav-link"}}{{fa-icon 'sign-in'}} Sign In{{/link-to}}{{/nav.item}}
+      {{/if}}
     {{/navbar.nav}}
   {{/navbar.content}}
 {{/bs-navbar}}

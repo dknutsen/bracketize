@@ -1,8 +1,8 @@
 /* jshint node: true */
 
-require('dotenv').load({path:'./config/.env'});
 
 module.exports = function(environment) {
+  require('dotenv').load({path:`./config/${environment}.env`});
   var ENV = {
     modulePrefix: 'bracketize',
     environment: environment,
