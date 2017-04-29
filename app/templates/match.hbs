@@ -1,13 +1,37 @@
 <div class="container">
-  <h1>{{#link-to 'bracket' content.match.bracket.id}}{{content.match.bracket.name}}{{/link-to}}</h1>
+  <h1>{{#link-to 'bracket' content.match.bracket.id}}{{content.match.bracket.name}}{{/link-to}}
+  {{#if isOwner}}
+    <button class="btn btn-primary">
+    {{#if (eq content.match.status 'waiting')}}Open{{/if}}
+    {{#if (eq content.match.status 'open')}}Done{{/if}}
+    </button>
+  {{/if}}
+  <div class="pull-right">
+    <button {{action 'gotoMatch' prevMatch}} class="btn btn-primary" disabled={{unless prevMatch 'true'}}>Prev</button>
+    <button {{action 'gotoMatch' nextMatch}} class="btn btn-primary" disabled={{unless nextMatch 'true'}}>Next</button>
+  </div>
+  </h1>
+
 
   <div class="row">
     <div class="col-xs-12 col-lg-6">
-      {{contender-card contender=content.match.contenderA score=votesA winner=votedA contenderClicked="contenderClicked"}}
+      {{contender-card
+        contender=content.match.contenderA 
+        score=content.match.votesA
+        winner=votedA
+        isBlind=content.match.bracket.isBlind
+        contenderClicked="contenderClicked"
+      }}
     </div>
 
     <div class="col-xs-12 col-lg-6">
-      {{contender-card contender=content.match.contenderB score=votesB winner=votedB contenderClicked="contenderClicked"}}
+      {{contender-card
+        contender=content.match.contenderB
+        score=content.match.votesB
+        winner=votedB
+        isBlind=content.match.bracket.isBlind
+        contenderClicked="contenderClicked"
+      }}
     </div>
   </div>
 </div>

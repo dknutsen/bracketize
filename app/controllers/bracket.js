@@ -2,6 +2,9 @@ import Ember from 'ember';
 import isNumeric from '../utils/is-numeric';
 
 export default Ember.Controller.extend({
+  isOwner: function(){
+    return this.get('content.bracket.owner') === this.get('session.uid');
+  }.property(),
 
   sortDefinition: Ember.computed('content.bracket.seedProperty', 'content.bracket.seedAscending', function(){
     let seedProp = this.get('content.bracket.seedProperty');
@@ -35,6 +38,17 @@ export default Ember.Controller.extend({
     }
     return name;
   },
+  roundStatusButtonLabel: function(){
+    if(this.get('content.bracket.isWaiting')) {
+      return "Open Bracket";
+    } else if(this.get('content.bracket.isOpen')) {
+      return "Next Round";
+    } else if(this.get('content.bracket.isMoreRounds')) {
+      return "Close Bracket";
+    } else {
+      return "Closed";
+    }
+  }.property('content.bracket.status'),
 
   // FIXME: probably some issues with this logic, should we create records in a CP?
   // probably a better place/time to do this. Maybe when we create the bracket? My
@@ -67,7 +81,8 @@ export default Ember.Controller.extend({
         let newMatch = this.store.createRecord('match', {
           bracket,
           round: newRound,
-          owner
+          owner,
+          status: "waiting"
         });
         // if it's the first round we know the contenders already
         if(r === 0) {
@@ -94,6 +109,27 @@ export default Ember.Controller.extend({
   actions: {
     gotoMatch: function(match){
       this.transitionToRoute('match', match.get('id'));
+    },
+    nextStatus: function(){
+      let bracket = this.get('content.bracket');
+      let currentStatus = bracket.get('status');
+      let nextStatus = bracket.get('nextStatus');
+      if(nextStatus === null) { return; }
+
+      if(bracket.get('isOpen')) {
+        let currentRound = bracket.get('rounds').objectAt(currentStatus);
+        if(currentRound){
+          currentRound.closeRound();
+        }
+      }
+      bracket.set('status', nextStatus);
+      if(bracket.get('isOpen')) {
+        let newRound = bracket.get('rounds').objectAt(nextStatus);
+        if(newRound){
+          newRound.openRound();
+        }
+      }
+      bracket.save();
     }
   }
 

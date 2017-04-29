@@ -1,18 +1,26 @@
 {{!-- taken from Aron Duby's sweet codepen: https://codepen.io/aronduby/pen/qliuj --}}
 
 {{#each rounds as |round index|}}
-<ul class="round round-{{index}}">
+<ul class="round round-{{index}} {{if round.isClosed 'closed'}}">
   <li class="spacer">&nbsp;</li>
 
   {{#each round.matches as |match|}}        
 
   <li onclick={{action 'gotoMatch' match}} class="game game-top {{if match.winnerIsA 'winner'}} {{if match.loserIsA 'loser'}}">
-    {{#if match.contenderA}}{{match.contenderA.name}}{{else}}TBD{{/if}}
+    {{#if match.contenderA}}
+      {{#unless bracket.isBlind}}{{match.contenderA.name}}{{else}}{{match.contenderA.blindName}}{{/unless}}
+    {{else}}
+      TBD
+    {{/if}}
     <span>{{match.votesA}}</span>
   </li>
   <li onclick={{action 'gotoMatch' match}} class="game game-spacer">&nbsp;</li>
   <li onclick={{action 'gotoMatch' match}} class="game game-bottom {{if match.winnerIsB 'winner'}} {{if match.loserIsB 'loser'}}">
-    {{#if match.contenderB}}{{match.contenderB.name}}{{else}}TBD{{/if}}
+    {{#if match.contenderB}}
+      {{#unless bracket.isBlind}}{{match.contenderB.name}}{{else}}{{match.contenderB.blindName}}{{/unless}}
+    {{else}}
+      TBD
+    {{/if}}
     <span>{{match.votesB}}</span>
   </li>
 

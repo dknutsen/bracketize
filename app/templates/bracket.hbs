@@ -2,6 +2,15 @@
   {{!-- header, bracket name, etc --}}
   <h1>{{content.bracket.name}}</h1>
 
+  <div class="">
+  {{#if isOwner}}
+    <button {{action 'nextStatus'}} class="btn btn-primary" disabled={{if content.bracket.isClosed 'true'}}>{{roundStatusButtonLabel}}</button>
+  {{/if}}
+  </div>
+
+
+  {{bracket-viewer bracket=content.bracket rounds=rounds gotoMatch="gotoMatch"}}
+
 {{!--
   <div>Is Blind: {{content.bracket.isBlind}}</div>
   <div># Contenders: {{content.bracket.numContenders}}</div>
@@ -39,7 +48,6 @@
     </table>
   </div>
 --}}
-  {{bracket-viewer rounds=rounds gotoMatch="gotoMatch"}}
 
   {{!-- rounds --}}
 {{!--

@@ -25,8 +25,8 @@ export default DS.Model.extend({
   // could have open, roundX, ... closed?
   // should we have a different attr for current round?
   // current round
-  // - open: new users can join, bracket settings can be changed
-  // - started/roundX: bracket settings cannot change, no noobs
+  // - waiting: new users can join, bracket settings can be changed
+  // - round_index: bracket settings cannot change, no noobs
   // - closed: view only, bracket is done
   status: DS.attr('string'),
   
@@ -77,6 +77,32 @@ export default DS.Model.extend({
   }.property('contenders.length'),
 
   isBlind: function(){
-    return this.get('blind');
+    return this.get('blind') && this.get('status') !== 'closed';
   }.property('blind'),
+
+  isWaiting: function(){
+    return this.get('status') === 'waiting';
+  }.property('status'),
+  isOpen: function(){
+    return this.get('status') !== 'waiting' && this.get('status') !== 'closed';
+  }.property('status'),
+  isClosed: function(){
+    return this.get('status') === 'closed';
+  }.property('status'),
+
+  isMoreRounds: function(){
+    return this.get('status') !== 'closed' && this.get('status') < this.get('rounds.length') - 1;
+  }.property('status', 'rounds.length'),
+  nextStatus: function(){
+    let s = this.get('status');
+    if(s === 'waiting') {
+      return 0;
+    } else if(this.get('isMoreRounds')) {
+      return s + 1;
+    } else if(!this.get('isClosed')){
+      return 'closed';
+    } else {
+      return null;
+    }
+  }.property('status'),
 });

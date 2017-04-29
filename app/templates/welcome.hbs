@@ -19,7 +19,7 @@
 <div class="welcome d-flex flex-column justify-content-center">
   <div class="container d-flex justify-content-center">
   <div class="jumbotron">
-      <form class="form-group" onSubmit={{action 'submitForm' bracketName}}>
+      <form class="form-group" {{action 'submitForm' bracketName on="submit"}}>
         <h1 class="splash-head">
           <label for="name">I want to bracketize </label>
           {{input type='text' id='name' class='underlined' value=bracketName}}

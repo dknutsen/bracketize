@@ -19,7 +19,7 @@ export default DS.Model.extend({
   // in addition to rounds.
   // in a voted bracket a match can only be open for voting if the round is open
   // in predictive bracket a match can only be open before the bracket has started(?)
-  open: DS.attr('boolean'),
+  status: DS.attr('string'), // waiting, open, closed
 
   // computed props
   //votes: count votes relationship
@@ -43,4 +43,20 @@ export default DS.Model.extend({
   loserIsB: function(){
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') !== this.get('contenderB.id');
   }.property('winner', 'contenderB'),
+
+
+  // this would normally be server logic so... whatever
+  openMatch: function(){
+    this.set('status', 'open');
+    this.save();
+  },
+  closeMatch: function(){
+    this.set('status', 'closed');
+    if(this.get('votesA') >= this.get('votesB')) {
+      this.set('winner', this.get('contenderA'));
+    } else {
+      this.set('winner', this.get('contenderB'));
+    }
+    this.save();
+  }
 });

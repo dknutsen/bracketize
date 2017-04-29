@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RandomWords from "../../utils/random-words";
 
 export default Ember.Controller.extend({
   queryParams: ['name', 'numContenders', 'blind', 'type', 'visibility'],
@@ -83,9 +84,11 @@ export default Ember.Controller.extend({
       let promises = contenders.map((contender) => {
         // split name off from the other contender attributes
         let {name, ...attributes} = contender;
+        let blindName = blind ? `${RandomWords.randomAdjective()} ${RandomWords.randomNoun()}` : "";
         let cModel = self.store.createRecord('contender', {
           owner,
           name,
+          blindName,
           attributes
         });
         // add the contender to the bracket
