@@ -3,8 +3,12 @@ import parseCSV from "../utils/parse-csv";
 import parseJSON from "../utils/parse-json";
 
 export default Ember.Component.extend({
+  // if we are in 'quickInput' mode or not (CSV or JSON editor)
   quickInput: false,
 
+  // which input mode we're currently in 
+  inputMode: 'csv',
+  
   parsedContenders: function(){
     let inputMode = this.get('inputMode');
     let textValue = this.get('textValue');
@@ -41,19 +45,76 @@ export default Ember.Component.extend({
     }); 
     return headers;
   }.property('contenders', 'contenders.[]', 'columns', 'columns.[]'),
-/*
-  contenders: [
-    {apple:1, pear:2, lemon:4, e:5},
-    {a:0, b:0, c:0, d:0},
-    {a:"q", b:"b", c:"c", d:"d", e:"e"}
-  ],
-*/
+
+
+//  getContendersFromTable: function(){
+//    return JSON.parse(JSON.stringify(this.get('contenders')));
+//  },
+  getContendersFromCSV: function(){
+    let csvInputText = this.get('csvInputText');
+    try {
+      let parsed = parseCSV(csvInputText);
+      let sparsed = this.arraysToObject(parsed);
+      return sparsed;
+    } catch(error) {
+      return null;
+    }
+  },
+  getContendersFromJSON: function(){
+    let jsonInputText = this.get('jsonInputText');
+    try {
+      //let parsed = parseJSON(jsonInputText);
+      let parsed = JSON.parse(jsonInputText);
+      return parsed;
+    } catch(error) {
+      return null;
+    }
+  },
+  contendersToCSV: function(){
+    let contenders = this.get('contenders');
+    let columns = this.get('columns');
+    // set CSV text
+    let csvText = columns.join(',') + '\n';
+    contenders.forEach((contender) => {
+      let line = [];
+      columns.forEach((column) => {
+        line.push(contender[column]);
+      });
+      csvText += line.join(',') + '\n';
+    });
+    return csvText;
+  },
+  contendersToJSON: function(){
+    return JSON.stringify(this.get('contenders'), null, 2);
+  },
+  setContenderDataFromObjects(objects){
+    let contenders = this.get('contenders');
+//    let columns = this.get('columns');
+    
+    if(contenders.length !== objects.length){ return false; }
+
+    let columns = {};   
+
+    for(var i = 0; i<objects.length; i++){
+      let cobj = objects[i];
+      for (var property in cobj) {
+        if (cobj.hasOwnProperty(property)) {
+          let lowerProp = property.toLowerCase();
+          Ember.set(contenders[i], lowerProp, cobj[property]);
+          columns[lowerProp] = true;
+        }
+      }
+    }
+    this.set('columns', Object.keys(columns));
+    return true;
+  },
 
   actions: {
     tabChanged: function(newTab){
       this.set('inputMode', newTab.replace('Tab',''));
     },
     startQuickInput: function(){
+/*
       let contenders = this.get('contenders');
       let columns = this.get('columns');
       // set CSV text
@@ -65,13 +126,17 @@ export default Ember.Component.extend({
         });
         csvText += line.join(',') + '\n';
       });
-      this.set('csvInputText', csvText);
-      // set JSON text
-      this.set('jsonInputText', JSON.stringify(contenders, null, 2));
+*/
+      this.set('csvInputText', this.contendersToCSV());
+      this.set('jsonInputText', this.contendersToJSON());
       this.set('quickInput', true);
     },
     saveQuickInput: function(){
-      this.set('quickInput', false);
+      let objects = this.getContendersFromCSV();
+      let saved = this.setContenderDataFromObjects(objects);
+      if(saved) {
+        this.set('quickInput', false);
+      }
     },
     cancelQuickInput: function(){
       this.set('quickInput', false);
