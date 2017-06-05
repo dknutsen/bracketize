@@ -18,3 +18,7 @@ testem.log
 
 # secrets
 *.env
+
+# firebase
+.firebaserc
+firebase.json
