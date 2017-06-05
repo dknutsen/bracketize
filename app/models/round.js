@@ -11,10 +11,10 @@ export default DS.Model.extend({
   bracket: DS.belongsTo('bracket'),
   matches: DS.hasMany('match'),
 
+  isWaiting: Ember.computed.equal('status', 'waiting'),
+  isOpen: Ember.computed.equal('status', 'open'),
+  isClosed: Ember.computed.equal('status', 'closed'),
 
-  isClosed: function(){
-    return this.get('status') === 'closed';
-  }.property('status'),
 
   // don't love putting these in the model but in the normal case they'd be on the
   // server so hey, why not

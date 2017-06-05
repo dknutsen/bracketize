@@ -1,10 +1,10 @@
 
-<div class="card {{if winner 'card-success'}}" {{action 'contenderClicked' contender}}>
-  <h4 class="card-header">{{#unless isBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{score}}</span></h4>
+<div class="card {{if winner 'card-success'}} {{if matchIsOpen 'open'}}" {{action 'contenderClicked' contender}}>
+  <h4 class="card-header">{{#unless showBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{score}}</span></h4>
   <div class="card-block">
     <ul class="list-group list-group-flush">
       {{#each-in contender.attributes as |key value|}}
-      <li class="list-group-item">{{key}}: {{value}}</li>
+      <li class="list-group-item">{{key}}: {{#unless showBlind}}{{value}}{{else}}<i class="fa fa-eye-slash"></i>{{/unless}}</li>
       {{/each-in}}
     </ul>
   </div>

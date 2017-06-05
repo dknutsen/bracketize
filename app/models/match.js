@@ -44,6 +44,22 @@ export default DS.Model.extend({
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') !== this.get('contenderB.id');
   }.property('winner', 'contenderB'),
 
+  isWaiting: Ember.computed.equal('status', 'waiting'),
+  isOpen: Ember.computed.equal('status', 'open'),
+  isClosed: Ember.computed.equal('status', 'closed'),
+
+/*
+  isWaiting: function(){
+    return this.get('status') === 'waiting';
+  }.property('status'),
+  isOpen: function(){
+    return this.get('status') === 'open';
+  }.property('status'),
+  isClosed: function(){
+    return this.get('status') === 'closed';
+  }.property('status'),
+*/
+
 
   // this would normally be server logic so... whatever
   openMatch: function(){

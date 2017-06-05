@@ -40,13 +40,15 @@ export default Ember.Controller.extend({
       this.transitionToRoute('match', match.get('id'));
     },
     contenderClicked: function(contender){
+      let match = this.get('content.match');
+      if(!match.get('isOpen')) { return; }
+
       let alreadyVoted = this.get('alreadyVoted');
       if(alreadyVoted) {
         alreadyVoted.set('winner', contender);
         alreadyVoted.save();
       } else {
         let owner = this.get('session.uid'); 
-        let match = this.get('content.match'); 
         let vote = this.store.createRecord('vote', {
           owner,
           match,

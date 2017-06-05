@@ -19,11 +19,15 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    // this is for non-firebase login
+    // this is for non-firebase auth providers (eg google, facebook, etc)
     signIn: function(provider) {
       var self = this;
       this.get('session').open('firebase', { provider: provider}).then(function(data) {
-        self.get('session.attemptedTransition').retry();
+        if(self.get('session.attemptedTransition')){
+          self.get('session.attemptedTransition').retry();
+        } else {
+          self.transitionTo('/');
+        }
       });
     },
     signOut: function() {

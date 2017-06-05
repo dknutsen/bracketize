@@ -1,6 +1,8 @@
 & {  // ampersand refers to the component itself (parent selector)
+  cursor: not-allowed;
+}
+
+.open {
   cursor: pointer;
   cursor: hand;
 }
-
-

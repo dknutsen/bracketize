@@ -67,6 +67,7 @@ export default Ember.Controller.extend({
       let visibility = form.visibility;
       let seedProperty = form.seedProperty;
       let seedAscending = form.seedAscending;
+      let status = "waiting";
 
       // do validation?
 
@@ -77,6 +78,7 @@ export default Ember.Controller.extend({
         type,
         seedProperty,
         seedAscending,
+        status,
         visibility
       });
 

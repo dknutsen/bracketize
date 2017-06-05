@@ -2,13 +2,13 @@
 
 {{#each rounds as |round index|}}
 <ul class="round round-{{index}} {{if round.isClosed 'closed'}}">
-  <li class="spacer">&nbsp;</li>
+  <li class="spacer round-header">&nbsp;<div style="background-color: #f4f4f4">{{round.name}} <i class="fa {{if round.isWaiting 'fa-clock-o'}}{{if round.isOpen 'fa-thumbs-o-up'}}{{if round.isClosed 'fa-times-circle-o'}}"></i></div></li>
 
   {{#each round.matches as |match|}}        
 
   <li onclick={{action 'gotoMatch' match}} class="game game-top {{if match.winnerIsA 'winner'}} {{if match.loserIsA 'loser'}}">
     {{#if match.contenderA}}
-      {{#unless bracket.isBlind}}{{match.contenderA.name}}{{else}}{{match.contenderA.blindName}}{{/unless}}
+      {{#unless showBlindNames}}{{match.contenderA.name}}{{else}}{{match.contenderA.blindName}}{{/unless}}
     {{else}}
       TBD
     {{/if}}

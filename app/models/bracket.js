@@ -98,7 +98,7 @@ export default DS.Model.extend({
     if(s === 'waiting') {
       return 0;
     } else if(this.get('isMoreRounds')) {
-      return s + 1;
+      return parseInt(s) + 1;
     } else if(!this.get('isClosed')){
       return 'closed';
     } else {

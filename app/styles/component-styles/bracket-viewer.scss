@@ -17,6 +17,11 @@
   list-style:none;
   padding:0;
 
+  .round-header {
+    text-align: center;
+    /*background-color: #f4f4f4;*/
+  }
+
   .spacer{ 
     flex-grow:1;
   }

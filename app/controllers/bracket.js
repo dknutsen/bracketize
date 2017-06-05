@@ -73,7 +73,8 @@ export default Ember.Controller.extend({
         name: this.roundName(roundContenders),
         index: r,
         owner,
-        bracket
+        bracket,
+        status: "waiting"
       });
       bracket.get('rounds').addObject(newRound);
       // create matches for each round
@@ -116,17 +117,29 @@ export default Ember.Controller.extend({
       let nextStatus = bracket.get('nextStatus');
       if(nextStatus === null) { return; }
 
+      // first close the exisiting round if any
       if(bracket.get('isOpen')) {
         let currentRound = bracket.get('rounds').objectAt(currentStatus);
         if(currentRound){
           currentRound.closeRound();
         }
       }
+      // set the bracket status to the next round
       bracket.set('status', nextStatus);
+      // if that didn't close the bracket, open the next round
       if(bracket.get('isOpen')) {
+        let currentRound = bracket.get('rounds').objectAt(currentStatus);
         let newRound = bracket.get('rounds').objectAt(nextStatus);
         if(newRound){
           newRound.openRound();
+          for(var n = 0; n<newRound.get('matches.length'); n++) {
+            let previousWinnerA = currentRound.get('matches').objectAt(n*2).get('winner');
+            let previousWinnerB = currentRound.get('matches').objectAt(n*2+1).get('winner');
+            let matchN = newRound.get('matches').objectAt(n);
+            matchN.set('contenderA', previousWinnerA);
+            matchN.set('contenderB', previousWinnerB);
+            matchN.save();
+          }
         }
       }
       bracket.save();

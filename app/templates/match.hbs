@@ -1,17 +1,15 @@
 <div class="container">
   <h1>{{#link-to 'bracket' content.match.bracket.id}}{{content.match.bracket.name}}{{/link-to}}
-  {{#if isOwner}}
-    <button class="btn btn-primary">
-    {{#if (eq content.match.status 'waiting')}}Open{{/if}}
-    {{#if (eq content.match.status 'open')}}Done{{/if}}
-    </button>
-  {{/if}}
   <div class="pull-right">
     <button {{action 'gotoMatch' prevMatch}} class="btn btn-primary" disabled={{unless prevMatch 'true'}}>Prev</button>
     <button {{action 'gotoMatch' nextMatch}} class="btn btn-primary" disabled={{unless nextMatch 'true'}}>Next</button>
   </div>
   </h1>
-
+  <h4>
+    {{#if content.match.isWaiting}}Waiting for voting{{/if}}
+    {{#if content.match.isOpen}}Open for voting{{/if}}
+    {{#if content.match.isClosed}}Closed for voting{{/if}}
+  </h4>
 
   <div class="row">
     <div class="col-xs-12 col-lg-6">
@@ -19,7 +17,10 @@
         contender=content.match.contenderA 
         score=content.match.votesA
         winner=votedA
+        matchIsOpen=content.match.isOpen
         isBlind=content.match.bracket.isBlind
+        isOwner=isOwner
+        bracketClosed=content.match.bracket.isClosed
         contenderClicked="contenderClicked"
       }}
     </div>
@@ -29,7 +30,10 @@
         contender=content.match.contenderB
         score=content.match.votesB
         winner=votedB
+        matchIsOpen=content.match.isOpen
         isBlind=content.match.bracket.isBlind
+        isOwner=isOwner
+        bracketClosed=content.match.bracket.isClosed
         contenderClicked="contenderClicked"
       }}
     </div>
