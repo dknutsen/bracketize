@@ -2,7 +2,7 @@
 
 {{#each rounds as |round index|}}
 <ul class="round round-{{index}} {{if round.isClosed 'closed'}}">
-  <li class="spacer round-header">&nbsp;<div style="background-color: #f4f4f4">{{round.name}} <i class="fa {{if round.isWaiting 'fa-clock-o'}}{{if round.isOpen 'fa-thumbs-o-up'}}{{if round.isClosed 'fa-times-circle-o'}}"></i></div></li>
+  <li class="spacer round-header">&nbsp;<div style="background-color: #f4f4f4">{{round.name}}</div></li>
 
   {{#each round.matches as |match|}}        
 

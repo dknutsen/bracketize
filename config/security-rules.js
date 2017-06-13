@@ -1,5 +1,11 @@
 {
   "rules": {
+    "userData": {
+      "$userId": {
+        ".read": "auth.uid === $userId",
+        ".write": "auth.uid === $userId"
+      }
+    },
     "brackets": {
       ".read": "auth != null",
       "$bracket":{
