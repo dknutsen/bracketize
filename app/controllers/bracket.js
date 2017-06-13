@@ -31,7 +31,7 @@ export default Ember.Controller.extend({
       name = 'Final';
     } else if(roundContenders === 4) {
       name = 'Semifinals';
-    } else if(roundContenders === 4) {
+    } else if(roundContenders === 8) {
       name = 'Quarterfinals';
     } else {
       name = `Round of ${roundContenders}`;
