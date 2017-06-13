@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 
   // contenderId, passed in from owner
 
-  favoriteRecord: Ember.computed('favorites.favoritesRecords.length', function(){
+  favoriteRecord: Ember.computed('favorites.favoritesRecords.length', 'contenderId', function(){
     let records = this.get('favorites.favoritesRecords');
     return records ? records.findBy('contender', this.get('contenderId')) : undefined;
   }),
