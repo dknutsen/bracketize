@@ -2,6 +2,8 @@ import Ember from 'ember';
 import RandomWords from "../../utils/random-words";
 
 export default Ember.Controller.extend({
+  backend: Ember.inject.service(),
+
   queryParams: ['name', 'numContenders', 'blind', 'type', 'visibility'],
   name: null,
   blind: false, 
@@ -60,6 +62,15 @@ export default Ember.Controller.extend({
     submit: function(form){
       let self = this;
 
+      let bracket = self.get('backend').createBracket(form).then(bracket => bracket);;
+      let contenders = self.get('backend').createContenders(this.get('contenders')).then(contenders => contenders);
+      Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
+        self.get('backend').addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
+          self.transitionToRoute('bracket', hash.bracket.get('id'));
+        });
+      });
+
+/*
       let name = form.name;
       let owner = this.get('session.uid');
       let blind = form.blind;
@@ -104,6 +115,7 @@ export default Ember.Controller.extend({
           self.transitionToRoute('bracket', bracket.get('id'));
         });
       });
+*/
     },
   }
 });

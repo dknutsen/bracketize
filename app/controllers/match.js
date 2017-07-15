@@ -1,20 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-/*
-  votesA: function(){
-    return this.get('content.match.votes').filterBy('winner.id', this.get('content.match.contenderA.id')).get('length');
-  }.property('content.match.votes.@each.winner'),
-  votesB: function(){
-    return this.get('content.match.votes').filterBy('winner.id', this.get('content.match.contenderB.id')).get('length');
-  }.property('content.match.votes.@each.winner'),
-*/
 
   isOwner: function(){
     return this.get('content.match.owner') === this.get('session.uid');
   }.property(),
 
+  // did the user already vote? and who for?
   alreadyVoted: function(){
+    // either return a vote model if we already voted, or false if not
     return this.get('content.match.votes').findBy('owner', this.get('session.uid')) || false;
   }.property('content.match.votes.@each.winner', 'content.match.votes.@each.owner'),
   votedA: function(){
@@ -24,6 +18,7 @@ export default Ember.Controller.extend({
     return this.get('alreadyVoted.winner') && this.get('content.match.contenderB') && this.get('alreadyVoted.winner.id') === this.get('content.match.contenderB.id');
   }.property('alreadyVoted'),
 
+  // CPs that return the prev and next matches
   nextMatch: function(){
     let matches = this.get('content.match.round.matches');
     let index = matches.indexOf(this.get('content.match'));
