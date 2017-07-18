@@ -1,6 +1,6 @@
 <div class="container">
   {{!-- header, bracket name, etc --}}
-  <h1>{{content.bracket.name}}</h1>
+  <h1>{{content.bracket.name}}{{#if content.bracket.isOpen}} - {{currentRound.name}}{{/if}}</h1>
 
   <div class="">
   {{#if isOwner}}

@@ -8,20 +8,15 @@ export default Ember.Controller.extend({
     return this.get('content.bracket.owner') === this.get('session.uid');
   }.property(),
 
-  roundName: function(roundContenders){
-    let name = "";
-    if(roundContenders === 2) {
-      name = 'Final';
-    } else if(roundContenders === 4) {
-      name = 'Semifinals';
-    } else if(roundContenders === 8) {
-      name = 'Quarterfinals';
-    } else {
-      name = `Round of ${roundContenders}`;
+  currentRound: Ember.computed('model.bracket.status', 'model.rounds', function(){
+    let bracket = this.get('model.bracket');
+    if(!bracket.get('isOpen')) {
+      return null;
     }
-    return name;
-  },
-  roundStatusButtonLabel: function(){
+    return bracket.get('rounds').objectAt(bracket.get('status'));
+  }),
+
+  roundStatusButtonLabel: Ember.computed('model.bracket.status', function(){
     if(this.get('content.bracket.isWaiting')) {
       return "Open Bracket";
     } else if(this.get('content.bracket.isOpen')) {
@@ -31,7 +26,7 @@ export default Ember.Controller.extend({
     } else {
       return "Closed";
     }
-  }.property('content.bracket.status'),
+  }),
 
 
   actions: {

@@ -8,7 +8,7 @@
 
   <li onclick={{action 'gotoMatch' match}} class="game game-top {{if match.winnerIsA 'winner'}} {{if match.loserIsA 'loser'}}">
     {{#if match.contenderA}}
-      {{#unless showBlindNames}}{{match.contenderA.name}}{{else}}{{match.contenderA.blindName}}{{/unless}}
+      {{#if showRealNames}}{{match.contenderA.name}}{{/if}} {{#if bracket.isBlind}}({{match.contenderA.blindName}}){{/if}}
     {{else}}
       TBD
     {{/if}}
@@ -17,7 +17,7 @@
   <li onclick={{action 'gotoMatch' match}} class="game game-spacer">&nbsp;</li>
   <li onclick={{action 'gotoMatch' match}} class="game game-bottom {{if match.winnerIsB 'winner'}} {{if match.loserIsB 'loser'}}">
     {{#if match.contenderB}}
-      {{#unless bracket.isBlind}}{{match.contenderB.name}}{{else}}{{match.contenderB.blindName}}{{/unless}}
+      {{#if showRealNames}}{{match.contenderB.name}}{{/if}} {{#if bracket.isBlind}}({{match.contenderB.blindName}}){{/if}}
     {{else}}
       TBD
     {{/if}}
