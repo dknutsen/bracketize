@@ -75,6 +75,14 @@ export default DS.Model.extend({
   numContenders: function(){
     return this.get('contenders.length');
   }.property('contenders.length'),
+  sortDefinition: Ember.computed('seedProperty', 'seedAscending', function(){
+    let seedProp = this.get('seedProperty');
+    if(seedProp !== 'name') {
+      seedProp = `attributes.${seedProp}`;
+    }
+    return [`${seedProp}${this.get('seedAscending') ? '':':desc'}`];
+  }),
+  sortedContenders: Ember.computed.sort('contenders', 'sortDefinition'),
 
   isBlind: function(){
     return this.get('blind') && this.get('status') !== 'closed';

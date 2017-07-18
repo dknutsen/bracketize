@@ -16,7 +16,7 @@
         <tr>
           <td>{{#link-to 'bracket' bracket.id}}{{bracket.name}}{{/link-to}}</td>
           <td>{{bracket.numContenders}}</td>
-          <td><button {{action 'deleteBracket' bracket}}>x</button></td>
+          <td><button class="btn btn-danger" {{action 'deleteBracket' bracket}}><i class="fa fa-times"></i></button></td>
         </tr>
       {{/each}}
       </tbody>

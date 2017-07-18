@@ -66,80 +66,13 @@ export default Ember.Controller.extend({
       let contenders = self.get('backend').createContenders(this.get('contenders')).then(contenders => contenders);
       Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
         self.get('backend').addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
-          self.transitionToRoute('bracket', hash.bracket.get('id'));
+          self.get('backend').createRounds(hash.bracket).then(()=>{
+            self.transitionToRoute('bracket', hash.bracket.get('id'));
+          });
         });
       });
 
-/*
-      let name = form.name;
-      let owner = this.get('session.uid');
-      let blind = form.blind;
-      let type = form.type;
-      let visibility = form.visibility;
-      let seedProperty = form.seedProperty;
-      let seedAscending = form.seedAscending;
-      let status = "waiting";
-
-      // do validation?
-
-      let bracket = this.store.createRecord('bracket', {
-        name,
-        owner,
-        blind,
-        type,
-        seedProperty,
-        seedAscending,
-        status,
-        visibility
-      });
-
-      let contenders = this.get('contenders');
-      let promises = contenders.map((contender) => {
-        // split name off from the other contender attributes
-        let {name, ...attributes} = contender;
-        let blindName = blind ? `${RandomWords.randomAdjective()} ${RandomWords.randomNoun()}` : "";
-        let cModel = self.store.createRecord('contender', {
-          owner,
-          name,
-          blindName,
-          attributes
-        });
-        // add the contender to the bracket
-        bracket.get('contenders').addObject(cModel);
-        // save the contender, then the post
-        return cModel.save();
-      });
-
-      Ember.RSVP.all(promises).then(() => {
-        bracket.save().then(() => {
-          self.transitionToRoute('bracket', bracket.get('id'));
-        });
-      });
-*/
     },
   }
 });
-
-
-
-/*
-  parsedCSV: function(){
-    let parsed = parseCSV(this.get('csvValue'));
-    let parsedObjects = this.arraysToObject(parsed);
-    return parsedObjects;
-  }.property('csvValue'),
-  arraysToObject: function(data){
-    let keys = data.shift();
-    let output = [];
-    for (let i = 0; i < data.length; i++) {
-      let obj = {};
-      for (let j = 0; j < keys.length; j++) {
-        obj[keys[j]] = data[i][j];
-      }
-      output.push(obj);
-    }
-    return output;
-  },
-*/
-
 
