@@ -59,19 +59,12 @@ export default Ember.Controller.extend({
         delete contender[prop];
       });
     },
-    submit: function(form){
+    submit: function(bracketForm){
       let self = this;
-
-      let bracket = self.get('backend').createBracket(form).then(bracket => bracket);;
-      let contenders = self.get('backend').createContenders(this.get('contenders')).then(contenders => contenders);
-      Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
-        self.get('backend').addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
-          self.get('backend').createRounds(hash.bracket).then(()=>{
-            self.transitionToRoute('bracket', hash.bracket.get('id'));
-          });
-        });
+      let contenderData = this.get('contenders');
+      self.get('backend').createBracket(bracketForm, contenderData).then((bracket)=>{
+        self.transitionToRoute('bracket', bracket.get('id'));
       });
-
     },
   }
 });

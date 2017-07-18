@@ -59,20 +59,4 @@ export default DS.Model.extend({
     return this.get('status') === 'closed';
   }.property('status'),
 */
-
-
-  // this would normally be server logic so... whatever
-  openMatch: function(){
-    this.set('status', 'open');
-    this.save();
-  },
-  closeMatch: function(){
-    this.set('status', 'closed');
-    if(this.get('votesA') >= this.get('votesB')) {
-      this.set('winner', this.get('contenderA'));
-    } else {
-      this.set('winner', this.get('contenderB'));
-    }
-    this.save();
-  }
 });

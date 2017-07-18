@@ -5,7 +5,63 @@ export default Ember.Service.extend({
   store: Ember.inject.service(),
   session: Ember.inject.service(),
 
-  createBracket: function(data){
+
+  createBracket: function(bracketData, contendersData){
+    let self = this;
+    // FIXME: this is probably overcomplicated and could be refactored
+    let bracket = self._createBracket(bracketData).then(bracket => bracket);;
+    let contenders = self._createContenders(contendersData).then(contenders => contenders);
+    return Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
+      return self._addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
+        return self._createRounds(hash.bracket).then(()=>{
+          return hash.bracket;
+        });
+      });
+    });
+  },
+
+
+  // we used to have all these open/close round/match methods
+  // on the respective models and honestly that's not terrible
+  // either...
+  openRound: function(round){
+    let self = this;
+    round.set('status', 'open');
+    round.get('matches').forEach((match) => {
+      self.openMatch(match);
+    });
+    round.save();
+  },
+  closeRound: function(round){
+    let self = this;
+    round.set('status', 'closed');
+    round.get('matches').forEach((match) => {
+      self.closeMatch(match);
+    });
+    round.save();
+  },
+  openMatch: function(match){
+    match.set('status', 'open');
+    match.save();
+  },
+  closeMatch: function(match){
+    match.set('status', 'closed');
+    if(match.get('votesA') >= match.get('votesB')) {
+      match.set('winner', match.get('contenderA'));
+    } else {
+      match.set('winner', match.get('contenderB'));
+    }
+    match.save();
+  },
+
+
+
+
+  //
+  // Private methods
+  //
+
+  _createBracket: function(data){
     let self = this;
 
     let name = data.name;
@@ -34,7 +90,7 @@ export default Ember.Service.extend({
     });
   },
 
-  createContenders: function(data, bracket){
+  _createContenders: function(data, bracket){
     let self = this;
     let contenders = data;
     let owner = this.get('session.uid');
@@ -55,15 +111,14 @@ export default Ember.Service.extend({
     return Ember.RSVP.all(promises);
   },
 
-  addContendersToBracket: function(bracket, contenders){
+  _addContendersToBracket: function(bracket, contenders){
     contenders.forEach(cModel => {
       bracket.get('contenders').addObject(cModel);
     });
     return bracket.save();
   },
 
-
-  createRounds: function(bracket){
+  _createRounds: function(bracket){
     // just make sure the bracket doesn't already have rounds
     let rounds = bracket.get('rounds');
     if(rounds.get('length')) {
@@ -119,6 +174,11 @@ export default Ember.Service.extend({
     });
   },
 
+
+
+
+
+
   // prob a cleaner way to do this, maybe refactor to a util?
   _powersOf2: {
     1: 0,
@@ -144,7 +204,5 @@ export default Ember.Service.extend({
     }
     return name;
   },
-
-
 
 });

@@ -2,6 +2,8 @@ import Ember from 'ember';
 import isNumeric from '../utils/is-numeric';
 
 export default Ember.Controller.extend({
+  backend: Ember.inject.service(),
+
   isOwner: function(){
     return this.get('content.bracket.owner') === this.get('session.uid');
   }.property(),
@@ -46,7 +48,7 @@ export default Ember.Controller.extend({
       if(bracket.get('isOpen')) {
         let currentRound = bracket.get('rounds').objectAt(currentStatus);
         if(currentRound){
-          currentRound.closeRound();
+          this.get('backend').closeRound(currentRound);
         }
       }
       // set the bracket status to the next round
@@ -56,14 +58,17 @@ export default Ember.Controller.extend({
         let currentRound = bracket.get('rounds').objectAt(currentStatus);
         let newRound = bracket.get('rounds').objectAt(nextStatus);
         if(newRound){
-          newRound.openRound();
-          for(var n = 0; n<newRound.get('matches.length'); n++) {
-            let previousWinnerA = currentRound.get('matches').objectAt(n*2).get('winner');
-            let previousWinnerB = currentRound.get('matches').objectAt(n*2+1).get('winner');
-            let matchN = newRound.get('matches').objectAt(n);
-            matchN.set('contenderA', previousWinnerA);
-            matchN.set('contenderB', previousWinnerB);
-            matchN.save();
+          this.get('backend').openRound(newRound);
+          if(currentRound) {
+            // set previous winners as contenders for the matches in the new round
+            for(var n = 0; n<newRound.get('matches.length'); n++) {
+              let previousWinnerA = currentRound.get('matches').objectAt(n*2).get('winner');
+              let previousWinnerB = currentRound.get('matches').objectAt(n*2+1).get('winner');
+              let matchN = newRound.get('matches').objectAt(n);
+              matchN.set('contenderA', previousWinnerA);
+              matchN.set('contenderB', previousWinnerB);
+              matchN.save();
+            }
           }
         }
       }
