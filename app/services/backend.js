@@ -9,7 +9,7 @@ export default Ember.Service.extend({
   createBracket: function(bracketData, contendersData){
     let self = this;
     // FIXME: this is probably overcomplicated and could be refactored
-    let bracket = self._createBracket(bracketData).then(bracket => bracket);;
+    let bracket = self._createBracket(bracketData).then(bracket => bracket);
     let contenders = self._createContenders(contendersData).then(contenders => contenders);
     return Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
       return self._addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
@@ -62,8 +62,6 @@ export default Ember.Service.extend({
   //
 
   _createBracket: function(data){
-    let self = this;
-
     let name = data.name;
     let blind = data.blind;
     let type = data.type;
@@ -90,7 +88,7 @@ export default Ember.Service.extend({
     });
   },
 
-  _createContenders: function(data, bracket){
+  _createContenders: function(data){
     let self = this;
     let contenders = data;
     let owner = this.get('session.uid');

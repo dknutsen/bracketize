@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RandomWords from "../../utils/random-words";
 
 export default Ember.Controller.extend({
   backend: Ember.inject.service(),
