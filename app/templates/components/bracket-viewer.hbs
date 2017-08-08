@@ -12,7 +12,7 @@
     {{else}}
       TBD
     {{/if}}
-    <span>{{match.votesA}}</span>
+    <span>{{#if (or isOwner match.isClosed)}}{{match.votesA}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span>
   </li>
   <li onclick={{action 'gotoMatch' match}} class="game game-spacer">&nbsp;</li>
   <li onclick={{action 'gotoMatch' match}} class="game game-bottom {{if match.winnerIsB 'winner'}} {{if match.loserIsB 'loser'}}">
@@ -21,7 +21,7 @@
     {{else}}
       TBD
     {{/if}}
-    <span>{{match.votesB}}</span>
+    <span>{{#if (or isOwner match.isClosed)}}{{match.votesB}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span>
   </li>
 
   <li class="spacer">&nbsp;</li>
