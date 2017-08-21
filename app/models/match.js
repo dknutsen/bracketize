@@ -2,6 +2,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  session: Ember.inject.service(),
+
   owner: DS.attr('string'),
 
   contenderA: DS.belongsTo('contender', { async: true, inverse: null }),
@@ -48,6 +50,17 @@ export default DS.Model.extend({
   isWaiting: Ember.computed.equal('status', 'waiting'),
   isOpen: Ember.computed.equal('status', 'open'),
   isClosed: Ember.computed.equal('status', 'closed'),
+
+  // used for tracking the current user's vote
+  myVote: function(){
+    return this.get('votes').findBy('owner', this.get('session.uid')) || null;
+  }.property('votes.[]', 'votes.@each.owner'),
+  iVotedA: function(){
+    return this.get('myVote.winner.id') === this.get('contenderA.id');
+  }.property('myVote', 'myVote.winner.id', 'contenderA.id'),
+  iVotedB: function(){
+    return this.get('myVote.winner.id') === this.get('contenderB.id');
+  }.property('myVote', 'myVote.winner.id', 'contenderB.id'),
 
 /*
   isWaiting: function(){
