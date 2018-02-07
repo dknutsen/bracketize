@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>My Favorites</h1>
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each model.favorites as |favorite|}}
+        <tr>
+          {{!--<td>{{#link-to 'bracket' bracket.id}}{{bracket.name}}{{/link-to}}</td>--}}
+          <td>{{favorite.contender.name}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{{!-- {{outlet}} --}}

@@ -23,6 +23,9 @@ Router.map(function() {
     //this.route('new');
   });
 
+  // favorites
+  this.authenticatedRoute('favorites');
+
   // matches
   this.authenticatedRoute('match', { path:'/matches/:id' });
 });

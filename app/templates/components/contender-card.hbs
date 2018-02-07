@@ -1,6 +1,6 @@
 
 <div class="card {{if winner 'card-success'}} {{if matchIsOpen 'open'}}" {{action 'contenderClicked' contender}}>
-  <h4 class="card-header">{{contender-favorite contenderId=contender.id}}&nbsp;&nbsp;{{#unless showBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{#if showScores}}{{score}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span></h4>
+  <h4 class="card-header">{{contender-favorite contender=contender}}&nbsp;&nbsp;{{#unless showBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{#if showScores}}{{score}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span></h4>
   <div class="card-block">
     <ul class="list-group list-group-flush">
       {{#each-in contender.attributes as |key value|}}

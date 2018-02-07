@@ -3,7 +3,6 @@
 //}
 
 
-//let nouns = ["hate", "knowledge", "spring", "power", "secret", "fang", "waves", "fall", "arm", "rose", "force", "earth", "sense", "destruction", "brother", "hook", "swing", "cellar", "stone", "cloth", "dispatch", "rain", "battle", "grouper", "burst", "mother", "whip", "powder", "committee", "angel", "demon", "church", "altar", "station", "suggestion", "road", "desert", "desire", "sleep", "time", "bird", "cage", "elephant", "spider", "motion", "selection", "farm", "connection", "needle", "wax", "dust", "prophet", "end", "tendency", "distance", "dirt", "throat", "spear", "arrow", "act", "drop", "cliff", "waterfall", "experience", "control", "noise", "train", "ball", "dog", "amount", "glove", "crayon", "base", "harbor", "sweater", "stage", "crow", "unicorn", "plunge", "tempest", "ship", "storm", "rage", "tundra", "covfefe", "weasel", "leopard", "eagle", "unicorn", "disaster", "fury", "dragon", "ninja"]; 
 let nouns = [
   "altar",
   "angel",
@@ -140,6 +139,7 @@ let adjectives = [
   "ugly",
   "undead",
   "weathered",
+  "whispering",
   "wicked",
   "withered",
   "wretched"

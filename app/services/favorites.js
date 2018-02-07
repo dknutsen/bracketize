@@ -21,8 +21,8 @@ export default Ember.Service.extend({
     });
   },
 
-  createFavorite: function(contenderId){
-    let favorite = this.get('store').createRecord('favorite', {contender: contenderId});
+  createFavorite: function(contender){
+    let favorite = this.get('store').createRecord('favorite', {contender: contender});
     favorite.save();
   },
 
