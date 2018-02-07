@@ -1,13 +1,14 @@
 {{#bs-navbar position="fixed-top" as |navbar|}}
-  <div class="navbar-header">
-    {{navbar.toggle align="right"}}
-    {{#link-to "welcome" class="navbar-brand mr-auto"}}[bracketize]{{/link-to}}
-  </div>
+  {{#link-to "welcome" class="navbar-brand mr-auto"}}[bracketize]{{/link-to}}
+  {{navbar.toggle}}
   {{#navbar.content}}
+    {{#navbar.nav class="mr-auto" as |nav|}}
+      {{#nav.item}}{{#link-to 'brackets' class="nav-link"}}Brackets{{/link-to}}{{/nav.item}}
+      {{#nav.item}}{{#link-to 'favorites' class="nav-link"}}Favorites{{/link-to}}{{/nav.item}}
+    {{/navbar.nav}}
     {{#navbar.nav class="ml-auto" as |nav|}}
       {{#if session.currentUser}}
-        {{#nav.item}}<span class="navbar-text">{{session.currentUser.displayName}}</span>{{/nav.item}}
-        {{#nav.item}}<a {{action "signOut"}} class="nav-link">{{fa-icon 'sign-out'}} Sign Out</a>{{/nav.item}}
+        {{#nav.item}}<small class="navbar-text">{{session.currentUser.displayName}} <a {{action "signOut"}}>{{fa-icon 'sign-out'}} Sign Out</a></small>{{/nav.item}}
       {{else}}
         {{#nav.item}}{{#link-to "login" class="nav-link"}}{{fa-icon 'sign-in'}} Sign In{{/link-to}}{{/nav.item}}
       {{/if}}

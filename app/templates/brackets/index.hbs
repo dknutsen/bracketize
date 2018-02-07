@@ -8,7 +8,7 @@
         <tr>
           <th>Name</th>
           <th>Contenders</th>
-          <th></th>
+          <th>Manage</th>
         </tr>
       </thead>
       <tbody>
@@ -16,7 +16,9 @@
         <tr>
           <td>{{#link-to 'bracket' bracket.id}}{{bracket.name}}{{/link-to}}</td>
           <td>{{bracket.numContenders}}</td>
-          <td><button class="btn btn-danger" {{action 'deleteBracket' bracket}}><i class="fa fa-times"></i></button></td>
+          {{#if (eq bracket.owner userId)}}
+          <td>{{delete-button icon="times" onDelete=(action 'deleteBracket' bracket) size="sm"}}</td>
+          {{/if}}
         </tr>
       {{/each}}
       </tbody>

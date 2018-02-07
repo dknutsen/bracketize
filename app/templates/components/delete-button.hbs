@@ -1,0 +1,15 @@
+<button class="btn btn-danger {{sizeClass}}" {{action "handleClick"}}>
+{{#if confirmState}}
+  {{#if confirmText}}
+  {{confirmText}}
+  {{else}}
+  {{fa-icon 'question-circle'}}
+  {{/if}}
+{{else}}
+  {{#if text}}
+  {{text}}
+  {{else}}
+  {{fa-icon icon}}
+  {{/if}}
+{{/if}}
+</button>

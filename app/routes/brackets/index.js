@@ -3,13 +3,9 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model: function(params){
     return Ember.RSVP.hash({
-      brackets: this.store.findAll('bracket')
+      brackets: this.store.query('bracket', {})
+      // ^ WTF YOU MIGHT ASK, why blank query instead of findAll?!?
+      // see here: https://github.com/firebase/emberfire/issues/471
     });
-  },
-  actions: {
-    deleteBracket: function(bracket){
-      //this.store.deleteRecord('bracket', bracket);
-      bracket.destroyRecord();
-    }
   }
 });
