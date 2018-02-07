@@ -11,10 +11,10 @@
         </tr>
       </thead>
       <tbody>
-      {{#each content.contenders as |contender|}}
+      {{#each model.contenders as |contender|}}
         <tr>
           <td>{{contender.name}}</td>
-          <td><button {{action 'deleteContender' contender}}>x</button></td>
+          <td>{{delete-button onDelete=(action 'deleteContender' contender) size="sm"}}</td>
         </tr>
       {{/each}}
       </tbody>

@@ -1,10 +1,10 @@
 <div class="container">
   {{!-- header, bracket name, etc --}}
-  <h1>{{content.bracket.name}}{{#if content.bracket.isOpen}} - {{currentRound.name}}{{/if}}</h1>
+  <h1>{{model.bracket.name}}{{#if model.bracket.isOpen}} - {{currentRound.name}}{{/if}}</h1>
 
   <div class="">
   {{#if isOwner}}
-    <button {{action 'nextStatus'}} class="btn btn-primary" disabled={{if content.bracket.isClosed 'true'}}>{{roundStatusButtonLabel}}</button>
+    <button {{action 'nextStatus'}} class="btn btn-primary" disabled={{if model.bracket.isClosed 'true'}}>{{roundStatusButtonLabel}}</button>
   {{/if}}
   </div>
 

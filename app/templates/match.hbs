@@ -1,41 +1,41 @@
 <div class="container">
-  <h1>{{#link-to 'bracket' content.match.bracket.id}}{{content.match.bracket.name}}{{/link-to}}
+  <h1>{{#link-to 'bracket' model.match.bracket.id}}{{model.match.bracket.name}}{{/link-to}}
   <div class="pull-right">
     <button {{action 'gotoMatch' prevMatch}} class="btn btn-primary" disabled={{unless prevMatch 'true'}}>Prev</button>
     <button {{action 'gotoMatch' nextMatch}} class="btn btn-primary" disabled={{unless nextMatch 'true'}}>Next</button>
   </div>
   </h1>
   <h4>
-    {{#if content.match.isWaiting}}Waiting for voting{{/if}}
-    {{#if content.match.isOpen}}Open for voting ({{content.match.votes.length}}){{/if}}
-    {{#if content.match.isClosed}}Closed for voting ({{content.match.votes.length}}){{/if}}
+    {{#if model.match.isWaiting}}Waiting for voting{{/if}}
+    {{#if model.match.isOpen}}Open for voting ({{model.match.votes.length}}){{/if}}
+    {{#if model.match.isClosed}}Closed for voting ({{model.match.votes.length}}){{/if}}
   </h4>
 
   <div class="row">
     <div class="col-xs-12 col-lg-6">
       {{contender-card
-        contender=content.match.contenderA 
-        score=content.match.votesA
+        contender=model.match.contenderA 
+        score=model.match.votesA
         winner=votedA
-        matchIsOpen=content.match.isOpen
-        matchIsClosed=content.match.isClosed
-        isBlind=content.match.bracket.isBlind
+        matchIsOpen=model.match.isOpen
+        matchIsClosed=model.match.isClosed
+        isBlind=model.match.bracket.isBlind
         isOwner=isOwner
-        bracketClosed=content.match.bracket.isClosed
+        bracketClosed=model.match.bracket.isClosed
         contenderClicked="contenderClicked"
       }}
     </div>
 
     <div class="col-xs-12 col-lg-6">
       {{contender-card
-        contender=content.match.contenderB
-        score=content.match.votesB
+        contender=model.match.contenderB
+        score=model.match.votesB
         winner=votedB
-        matchIsOpen=content.match.isOpen
-        matchIsClosed=content.match.isClosed
-        isBlind=content.match.bracket.isBlind
+        matchIsOpen=model.match.isOpen
+        matchIsClosed=model.match.isClosed
+        isBlind=model.match.bracket.isBlind
         isOwner=isOwner
-        bracketClosed=content.match.bracket.isClosed
+        bracketClosed=model.match.bracket.isClosed
         contenderClicked="contenderClicked"
       }}
     </div>

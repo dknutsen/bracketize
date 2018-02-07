@@ -3,39 +3,39 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   isOwner: function(){
-    return this.get('content.match.owner') === this.get('session.uid');
+    return this.get('model.match.owner') === this.get('session.uid');
   }.property(),
 
   // did the user already vote? and who for?
   alreadyVoted: function(){
     // either return a vote model if we already voted, or false if not
-    return this.get('content.match.votes').findBy('owner', this.get('session.uid')) || false;
-  }.property('content.match.votes.@each.winner', 'content.match.votes.@each.owner'),
+    return this.get('model.match.votes').findBy('owner', this.get('session.uid')) || false;
+  }.property('model.match.votes.@each.winner', 'model.match.votes.@each.owner'),
   votedA: function(){
-    return this.get('alreadyVoted.winner') && this.get('content.match.contenderA') && this.get('alreadyVoted.winner.id') === this.get('content.match.contenderA.id');
+    return this.get('alreadyVoted.winner') && this.get('model.match.contenderA') && this.get('alreadyVoted.winner.id') === this.get('model.match.contenderA.id');
   }.property('alreadyVoted'),
   votedB: function(){
-    return this.get('alreadyVoted.winner') && this.get('content.match.contenderB') && this.get('alreadyVoted.winner.id') === this.get('content.match.contenderB.id');
+    return this.get('alreadyVoted.winner') && this.get('model.match.contenderB') && this.get('alreadyVoted.winner.id') === this.get('model.match.contenderB.id');
   }.property('alreadyVoted'),
 
   // CPs that return the prev and next matches
   nextMatch: function(){
-    let matches = this.get('content.match.round.matches');
-    let index = matches.indexOf(this.get('content.match'));
+    let matches = this.get('model.match.round.matches');
+    let index = matches.indexOf(this.get('model.match'));
     return matches.objectAt(index+1);
-  }.property('content.match.round.matches'),
+  }.property('model.match.round.matches'),
   prevMatch: function(){
-    let matches = this.get('content.match.round.matches');
-    let index = matches.indexOf(this.get('content.match'));
+    let matches = this.get('model.match.round.matches');
+    let index = matches.indexOf(this.get('model.match'));
     return matches.objectAt(index-1);
-  }.property('content.match.round.matches'),
+  }.property('model.match.round.matches'),
 
   actions: {
     gotoMatch: function(match){
       this.transitionToRoute('match', match.get('id'));
     },
     contenderClicked: function(contender){
-      let match = this.get('content.match');
+      let match = this.get('model.match');
       if(!match.get('isOpen')) { return; }
 
       let alreadyVoted = this.get('alreadyVoted');

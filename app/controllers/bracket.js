@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
   backend: Ember.inject.service(),
 
   isOwner: function(){
-    return this.get('content.bracket.owner') === this.get('session.uid');
+    return this.get('model.bracket.owner') === this.get('session.uid');
   }.property(),
 
   currentRound: Ember.computed('model.bracket.status', 'model.rounds', function(){
@@ -17,11 +17,11 @@ export default Ember.Controller.extend({
   }),
 
   roundStatusButtonLabel: Ember.computed('model.bracket.status', function(){
-    if(this.get('content.bracket.isWaiting')) {
+    if(this.get('model.bracket.isWaiting')) {
       return "Open Bracket";
-    } else if(this.get('content.bracket.isOpen')) {
+    } else if(this.get('model.bracket.isOpen')) {
       return "Next Round";
-    } else if(this.get('content.bracket.isMoreRounds')) {
+    } else if(this.get('model.bracket.isMoreRounds')) {
       return "Close Bracket";
     } else {
       return "Closed";
@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
       this.transitionToRoute('match', match.get('id'));
     },
     nextStatus: function(){
-      let bracket = this.get('content.bracket');
+      let bracket = this.get('model.bracket');
       let currentStatus = bracket.get('status');
       let nextStatus = bracket.get('nextStatus');
       if(nextStatus === null) { return; }

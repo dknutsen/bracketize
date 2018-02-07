@@ -6,9 +6,4 @@ export default Ember.Route.extend({
       contenders: this.store.findAll('contender')
     });
   },
-  actions: {
-    deleteContender: function(contender){
-      contender.destroyRecord();
-    }
-  }
 });
