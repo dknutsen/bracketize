@@ -24,8 +24,9 @@ export default DS.Model.extend({
   // in predictive bracket a match can only be open before the bracket has started(?)
   status: DS.attr('string'), // waiting, open, closed
 
-  // computed props
-  //votes: count votes relationship
+  /*
+  * computed properties
+  */
   votesA: function(){
     return this.get('votes').filterBy('winner.id', this.get('contenderA.id')).get('length');
   }.property('votes', 'votes.@each.winner'), 
@@ -61,16 +62,4 @@ export default DS.Model.extend({
   iVotedB: function(){
     return this.get('myVote.winner.id') === this.get('contenderB.id');
   }.property('myVote', 'myVote.winner.id', 'contenderB.id'),
-
-/*
-  isWaiting: function(){
-    return this.get('status') === 'waiting';
-  }.property('status'),
-  isOpen: function(){
-    return this.get('status') === 'open';
-  }.property('status'),
-  isClosed: function(){
-    return this.get('status') === 'closed';
-  }.property('status'),
-*/
 });

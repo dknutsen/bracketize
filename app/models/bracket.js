@@ -44,34 +44,18 @@ export default DS.Model.extend({
 
   rounds: DS.hasMany('round', { async: true, inverse: null }),
 
-/*
-  rounds: function(){
-    let numContenders = this.get('numContenders');
-    let rounds = {};
-    let roundCount = 1;
-    while(numContenders > 1) {
-      let name = '';
-      if(numContenders === 2) {
-        name = 'Final';
-      } else if(numContenders === 4) {
-        name = 'Semifinals';
-      } else if(numContenders === 4) {
-        name = 'Quarterfinals';
-      } else {
-        name = `Round of ${numContenders}`;
-      }
 
-      rounds[roundCount] = {
-        name: name,
-        number: roundCount,
-        contenders: numContenders
-      };
-      roundCount++;
-      numContenders /= 2;
-    }
-    return rounds;
-  }.property('numContenders'),
-*/
+  /* 
+  * Computed Properties
+  */
+  isOpen: Ember.computed.not('isNotOpen'),
+  isNotOpen: Ember.computed.or('isClosed', 'isWaiting'),
+  isClosed: Ember.computed.equal('status', 'closed'),
+  isNotClosed: Ember.computed.not('isClosed'),
+  isWaiting: Ember.computed.equal('status', 'waiting'),
+  isNotWaiting: Ember.computed.not('isWaiting'),
+  isBlind: Ember.computed.and('isNotClosed', 'blind'),
+
 
   numContenders: function(){
     return this.get('contenders.length');
@@ -84,20 +68,6 @@ export default DS.Model.extend({
     return [`${seedProp}${this.get('seedAscending') ? '':':desc'}`];
   }),
   sortedContenders: Ember.computed.sort('contenders', 'sortDefinition'),
-
-  isBlind: function(){
-    return this.get('blind') && this.get('status') !== 'closed';
-  }.property('blind'),
-
-  isWaiting: function(){
-    return this.get('status') === 'waiting';
-  }.property('status'),
-  isOpen: function(){
-    return this.get('status') !== 'waiting' && this.get('status') !== 'closed';
-  }.property('status'),
-  isClosed: function(){
-    return this.get('status') === 'closed';
-  }.property('status'),
 
   isMoreRounds: function(){
     return this.get('status') !== 'closed' && this.get('status') < this.get('rounds.length') - 1;
