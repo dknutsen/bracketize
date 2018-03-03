@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { equal } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  session: Ember.inject.service(),
+  session: service(),
 
   owner: DS.attr('string'),
 
@@ -48,9 +49,9 @@ export default DS.Model.extend({
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') !== this.get('contenderB.id');
   }.property('winner', 'contenderB'),
 
-  isWaiting: Ember.computed.equal('status', 'waiting'),
-  isOpen: Ember.computed.equal('status', 'open'),
-  isClosed: Ember.computed.equal('status', 'closed'),
+  isWaiting: equal('status', 'waiting'),
+  isOpen: equal('status', 'open'),
+  isClosed: equal('status', 'closed'),
 
   // used for tracking the current user's vote
   myVote: function(){

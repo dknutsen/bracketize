@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   showBlind: function(){
     return !this.get('bracketClosed') && !this.get('isOwner') && this.get('isBlind');

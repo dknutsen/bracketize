@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { set } from '@ember/object';
+import Component from '@ember/component';
 import parseCSV from "../utils/parse-csv";
 import parseJSON from "../utils/parse-json";
 
-export default Ember.Component.extend({
+export default Component.extend({
   // if we are in 'quickInput' mode or not (CSV or JSON editor)
   quickInput: false,
 
@@ -100,7 +101,7 @@ export default Ember.Component.extend({
       for (var property in cobj) {
         if (cobj.hasOwnProperty(property)) {
           let lowerProp = property.toLowerCase();
-          Ember.set(contenders[i], lowerProp, cobj[property]);
+          set(contenders[i], lowerProp, cobj[property]);
           columns[lowerProp] = true;
         }
       }

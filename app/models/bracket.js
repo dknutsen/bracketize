@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { not, or, equal, and, sort } from '@ember/object/computed';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -48,26 +49,26 @@ export default DS.Model.extend({
   /* 
   * Computed Properties
   */
-  isOpen: Ember.computed.not('isNotOpen'),
-  isNotOpen: Ember.computed.or('isClosed', 'isWaiting'),
-  isClosed: Ember.computed.equal('status', 'closed'),
-  isNotClosed: Ember.computed.not('isClosed'),
-  isWaiting: Ember.computed.equal('status', 'waiting'),
-  isNotWaiting: Ember.computed.not('isWaiting'),
-  isBlind: Ember.computed.and('isNotClosed', 'blind'),
+  isOpen: not('isNotOpen'),
+  isNotOpen: or('isClosed', 'isWaiting'),
+  isClosed: equal('status', 'closed'),
+  isNotClosed: not('isClosed'),
+  isWaiting: equal('status', 'waiting'),
+  isNotWaiting: not('isWaiting'),
+  isBlind: and('isNotClosed', 'blind'),
 
 
   numContenders: function(){
     return this.get('contenders.length');
   }.property('contenders.length'),
-  sortDefinition: Ember.computed('seedProperty', 'seedAscending', function(){
+  sortDefinition: computed('seedProperty', 'seedAscending', function(){
     let seedProp = this.get('seedProperty');
     if(seedProp !== 'name') {
       seedProp = `attributes.${seedProp}`;
     }
     return [`${seedProp}${this.get('seedAscending') ? '':':desc'}`];
   }),
-  sortedContenders: Ember.computed.sort('contenders', 'sortDefinition'),
+  sortedContenders: sort('contenders', 'sortDefinition'),
 
   isMoreRounds: function(){
     return this.get('status') !== 'closed' && this.get('status') < this.get('rounds.length') - 1;

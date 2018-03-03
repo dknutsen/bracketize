@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   showRealNames: function(){
     return this.get('isOwner') || this.get('bracket.isClosed') || !this.get('bracket.isBlind');
   }.property('isOwner', 'bracket.isOpen'),

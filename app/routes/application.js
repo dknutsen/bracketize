@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import ENV from '../config/environment';
 
-export default Ember.Route.extend({
-  firebaseApp: Ember.inject.service(),
+export default Route.extend({
+  firebaseApp: service(),
 
   afterModel: function(){
     // if we want to auto-create reocrds at any point

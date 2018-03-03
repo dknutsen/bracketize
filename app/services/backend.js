@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { hash, all } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 import RandomWords from "../utils/random-words";
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
-  session: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
+  session: service(),
 
 
   createBracket: function(bracketData, contendersData){
@@ -11,7 +12,7 @@ export default Ember.Service.extend({
     // FIXME: this is probably overcomplicated and could be refactored
     let bracket = self._createBracket(bracketData).then(bracket => bracket);
     let contenders = self._createContenders(contendersData).then(contenders => contenders);
-    return Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
+    return hash({bracket, contenders}).then((hash)=>{
       return self._addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
         return self._createRounds(hash.bracket).then(()=>{
           return hash.bracket;
@@ -106,7 +107,7 @@ export default Ember.Service.extend({
         return cModel;
       });
     });
-    return Ember.RSVP.all(promises);
+    return all(promises);
   },
 
   _addContendersToBracket: function(bracket, contenders){
@@ -162,11 +163,11 @@ export default Ember.Service.extend({
     }
     // wait until all matches are saved, then save all rounds,
     // and once those are done, save the bracket
-    return Ember.RSVP.all(matchPromises).then(() => {
+    return all(matchPromises).then(() => {
       newRounds.forEach(round => {
         roundPromises.push(round.save());
       });
-      return Ember.RSVP.all(roundPromises).then(() => {
+      return all(roundPromises).then(() => {
         return bracket.save();
       });
     });
