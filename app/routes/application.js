@@ -1,6 +1,5 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import ENV from '../config/environment';
 
 export default Route.extend({
   firebaseApp: service(),
@@ -22,20 +21,18 @@ export default Route.extend({
   actions: {
     // this is for non-firebase auth providers (eg google, facebook, etc)
     signIn: function(provider) {
-      var self = this;
-      this.get('session').open('firebase', { provider: provider}).then(function(data) {
-        if(self.get('session.attemptedTransition')){
-          self.get('session.attemptedTransition').retry();
+      this.get('session').open('firebase', { provider: provider}).then(() => {
+        if(this.get('session.attemptedTransition')){
+          this.get('session.attemptedTransition').retry();
         } else {
-          self.transitionTo('/');
+          this.transitionTo('/');
         }
       });
     },
     signOut: function() {
-      var self = this;
-      this.get('session').close().then(function(){
-        self.store.unloadAll();
-        self.transitionTo('/');
+      this.get('session').close().then(() => {
+        this.store.unloadAll();
+        this.transitionTo('/');
       });
     },
     accessDenied() {

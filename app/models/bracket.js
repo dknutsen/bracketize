@@ -58,9 +58,9 @@ export default DS.Model.extend({
   isBlind: and('isNotClosed', 'blind'),
 
 
-  numContenders: function(){
+  numContenders: computed('contenders.length', function(){
     return this.get('contenders.length');
-  }.property('contenders.length'),
+  }),
   sortDefinition: computed('seedProperty', 'seedAscending', function(){
     let seedProp = this.get('seedProperty');
     if(seedProp !== 'name') {
@@ -70,10 +70,10 @@ export default DS.Model.extend({
   }),
   sortedContenders: sort('contenders', 'sortDefinition'),
 
-  isMoreRounds: function(){
+  isMoreRounds: computed('status', 'rounds.length', function(){
     return this.get('status') !== 'closed' && this.get('status') < this.get('rounds.length') - 1;
-  }.property('status', 'rounds.length'),
-  nextStatus: function(){
+  }),
+  nextStatus: computed('status', function(){
     let s = this.get('status');
     if(s === 'waiting') {
       return 0;
@@ -84,5 +84,5 @@ export default DS.Model.extend({
     } else {
       return null;
     }
-  }.property('status'),
+  }),
 });

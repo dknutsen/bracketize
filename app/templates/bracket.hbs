@@ -8,6 +8,6 @@
   {{/if}}
   </div>
 
-  {{bracket-viewer bracket=model.bracket rounds=model.bracket.rounds isOwner=isOwner gotoMatch="gotoMatch"}}
+  {{bracket-viewer bracket=model.bracket rounds=model.bracket.rounds isOwner=isOwner gotoMatch=(action "gotoMatch")}}
 
 </div>

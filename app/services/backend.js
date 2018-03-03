@@ -7,7 +7,7 @@ export default Service.extend({
   session: service(),
 
 
-  createBracket: function(bracketData, contendersData){
+  createBracket(bracketData, contendersData){
     let self = this;
     // FIXME: this is probably overcomplicated and could be refactored
     let bracket = self._createBracket(bracketData).then(bracket => bracket);
@@ -25,7 +25,7 @@ export default Service.extend({
   // we used to have all these open/close round/match methods
   // on the respective models and honestly that's not terrible
   // either...
-  openRound: function(round){
+  openRound(round){
     let self = this;
     round.set('status', 'open');
     round.get('matches').forEach((match) => {
@@ -33,7 +33,7 @@ export default Service.extend({
     });
     round.save();
   },
-  closeRound: function(round){
+  closeRound(round){
     let self = this;
     round.set('status', 'closed');
     round.get('matches').forEach((match) => {
@@ -41,11 +41,11 @@ export default Service.extend({
     });
     round.save();
   },
-  openMatch: function(match){
+  openMatch(match){
     match.set('status', 'open');
     match.save();
   },
-  closeMatch: function(match){
+  closeMatch(match){
     match.set('status', 'closed');
     if(match.get('votesA') >= match.get('votesB')) {
       match.set('winner', match.get('contenderA'));
@@ -62,7 +62,7 @@ export default Service.extend({
   // Private methods
   //
 
-  _createBracket: function(data){
+  _createBracket(data){
     let name = data.name;
     let blind = data.blind;
     let type = data.type;
@@ -89,7 +89,7 @@ export default Service.extend({
     });
   },
 
-  _createContenders: function(data){
+  _createContenders(data){
     let self = this;
     let contenders = data;
     let owner = this.get('session.uid');
@@ -110,14 +110,14 @@ export default Service.extend({
     return all(promises);
   },
 
-  _addContendersToBracket: function(bracket, contenders){
+  _addContendersToBracket(bracket, contenders){
     contenders.forEach(cModel => {
       bracket.get('contenders').addObject(cModel);
     });
     return bracket.save();
   },
 
-  _createRounds: function(bracket){
+  _createRounds(bracket){
     // just make sure the bracket doesn't already have rounds
     let rounds = bracket.get('rounds');
     if(rounds.get('length')) {
@@ -179,7 +179,7 @@ export default Service.extend({
 
 
   // prob a cleaner way to do this, maybe refactor to a util?
-  _powersOf2: {
+  _powersOf2: Object.freeze({
     1: 0,
     2: 1,
     4: 2,
@@ -187,10 +187,10 @@ export default Service.extend({
     16: 4,
     32: 5,
     64: 6
-  },
+  }),
 
   // prob a cleaner way to do this, maybe refactor to a util?
-  _roundName: function(roundContenders){
+  _roundName(roundContenders){
     let name = "";
     if(roundContenders === 2) {
       name = 'Final';

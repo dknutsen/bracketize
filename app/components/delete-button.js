@@ -1,4 +1,4 @@
-import { computed } from '@ember/object';
+import { computed, get } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -20,7 +20,7 @@ export default Component.extend({
   actions: {
     handleClick: function(){
       if(this.get('confirmState')) {
-        this.sendAction('onDelete');
+        get(this, 'onDelete')();
       } else {
         this.toggleProperty('confirmState');
       }

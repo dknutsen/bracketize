@@ -58,9 +58,9 @@
             {{contender-editor
               contenders=contenders
               columns=columns 
-              addColumn="addColumn" 
-              deleteColumn="deleteColumn" 
-              columnNameChanged="columnNameChanged"
+              addColumn=(action "addColumn")
+              deleteColumn=(action "deleteColumn")
+              columnNameChanged=(action "columnNameChanged")
             }}
           </div>
         </div>

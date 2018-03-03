@@ -20,7 +20,6 @@ export default Component.extend({
   }),
 
   click(){
-console.log('favorite click', this.get('contender'));
     let record = this.get('favoriteRecord');
     if(record) {
       this.get('favorites').deleteFavorite(record);
