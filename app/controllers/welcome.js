@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   actions: {
     submitForm: function(bracketName){
-      console.log('submitForm', bracketName);
       this.transitionToRoute('brackets.new', { queryParams: { name: bracketName }});
     }
   }

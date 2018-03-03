@@ -1,34 +1,35 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
-  isOwner: function(){
+  isOwner: computed(function(){
     return this.get('model.match.owner') === this.get('session.uid');
-  }.property(),
+  }),
 
   // did the user already vote? and who for?
-  alreadyVoted: function(){
+  alreadyVoted: computed('model.match.votes.@each.{winner,owner}', function(){
     // either return a vote model if we already voted, or false if not
     return this.get('model.match.votes').findBy('owner', this.get('session.uid')) || false;
-  }.property('model.match.votes.@each.winner', 'model.match.votes.@each.owner'),
-  votedA: function(){
+  }),
+  votedA: computed('alreadyVoted', function(){
     return this.get('alreadyVoted.winner') && this.get('model.match.contenderA') && this.get('alreadyVoted.winner.id') === this.get('model.match.contenderA.id');
-  }.property('alreadyVoted'),
-  votedB: function(){
+  }),
+  votedB: computed('alreadyVoted', function(){
     return this.get('alreadyVoted.winner') && this.get('model.match.contenderB') && this.get('alreadyVoted.winner.id') === this.get('model.match.contenderB.id');
-  }.property('alreadyVoted'),
+  }),
 
   // CPs that return the prev and next matches
-  nextMatch: function(){
+  nextMatch: computed('model.match.round.matches', function(){
     let matches = this.get('model.match.round.matches');
     let index = matches.indexOf(this.get('model.match'));
     return matches.objectAt(index+1);
-  }.property('model.match.round.matches'),
-  prevMatch: function(){
+  }),
+  prevMatch: computed('model.match.round.matches', function(){
     let matches = this.get('model.match.round.matches');
     let index = matches.indexOf(this.get('model.match'));
     return matches.objectAt(index-1);
-  }.property('model.match.round.matches'),
+  }),
 
   actions: {
     gotoMatch: function(match){

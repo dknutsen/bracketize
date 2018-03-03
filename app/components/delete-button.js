@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { computed, get } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   text: null, // optional, if not provided, fa-times is used
   icon: 'times',
 
@@ -8,7 +9,7 @@ export default Ember.Component.extend({
   confirmIcon: 'question-circle',
   confirmState: false, // if true we are confirming
 
-  sizeClass: Ember.computed('size', function(){
+  sizeClass: computed('size', function(){
     return this.get('size') ? `btn-${this.get('size')}` : '';
   }),
 
@@ -19,7 +20,7 @@ export default Ember.Component.extend({
   actions: {
     handleClick: function(){
       if(this.get('confirmState')) {
-        this.sendAction('onDelete');
+        get(this, 'onDelete')();
       } else {
         this.toggleProperty('confirmState');
       }

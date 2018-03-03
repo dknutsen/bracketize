@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-export default Ember.Component.extend({
-  showRealNames: function(){
+export default Component.extend({
+  showRealNames: computed('isOwner', 'bracket.isOpen', function(){
     return this.get('isOwner') || this.get('bracket.isClosed') || !this.get('bracket.isBlind');
-  }.property('isOwner', 'bracket.isOpen'),
+  }),
 
   actions: {
     gotoMatch: function(match){
-      this.sendAction('gotoMatch', match);
+      get(this, 'gotoMatch')(match);
     }
   }
 });

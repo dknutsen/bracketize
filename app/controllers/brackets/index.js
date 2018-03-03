@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  session: Ember.inject.service(),
+export default Controller.extend({
+  session: service(),
 
-  userId: Ember.computed.alias('session.uid'),
+  userId: alias('session.uid'),
 
   actions: {
     deleteBracket: function(bracket){

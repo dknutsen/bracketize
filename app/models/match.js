@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  session: Ember.inject.service(),
+  session: service(),
 
   owner: DS.attr('string'),
 
@@ -27,39 +28,39 @@ export default DS.Model.extend({
   /*
   * computed properties
   */
-  votesA: function(){
+  votesA: computed('votes', 'votes.@each.winner', function(){
     return this.get('votes').filterBy('winner.id', this.get('contenderA.id')).get('length');
-  }.property('votes', 'votes.@each.winner'), 
-  votesB: function(){
+  }),
+  votesB: computed('votes', 'votes.@each.winner', function(){
     return this.get('votes').filterBy('winner.id', this.get('contenderB.id')).get('length');
-  }.property('votes', 'votes.@each.winner'), 
+  }),
 
-  winnerIsA: function(){
+  winnerIsA: computed('winner', 'contenderA', function(){
     return this.get('winner.id') && this.get('contenderA.id') && this.get('winner.id') === this.get('contenderA.id');
-  }.property('winner', 'contenderA'),
-  winnerIsB: function(){
+  }),
+  winnerIsB: computed('winner', 'contenderB', function(){
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') === this.get('contenderB.id');
-  }.property('winner', 'contenderB'),
+  }),
 
-  loserIsA: function(){
+  loserIsA: computed('winner', 'contenderA', function(){
     return this.get('winner.id') && this.get('contenderA.id') && this.get('winner.id') !== this.get('contenderA.id');
-  }.property('winner', 'contenderA'),
-  loserIsB: function(){
+  }),
+  loserIsB: computed('winner', 'contenderB', function(){
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') !== this.get('contenderB.id');
-  }.property('winner', 'contenderB'),
+  }),
 
-  isWaiting: Ember.computed.equal('status', 'waiting'),
-  isOpen: Ember.computed.equal('status', 'open'),
-  isClosed: Ember.computed.equal('status', 'closed'),
+  isWaiting: computed.equal('status', 'waiting'),
+  isOpen: computed.equal('status', 'open'),
+  isClosed: computed.equal('status', 'closed'),
 
   // used for tracking the current user's vote
-  myVote: function(){
+  myVote: computed('votes.{[],@each.owner}', function(){
     return this.get('votes').findBy('owner', this.get('session.uid')) || null;
-  }.property('votes.[]', 'votes.@each.owner'),
-  iVotedA: function(){
+  }),
+  iVotedA: computed('myVote', 'myVote.winner.id', 'contenderA.id', function(){
     return this.get('myVote.winner.id') === this.get('contenderA.id');
-  }.property('myVote', 'myVote.winner.id', 'contenderA.id'),
-  iVotedB: function(){
+  }),
+  iVotedB: computed('myVote', 'myVote.winner.id', 'contenderB.id', function(){
     return this.get('myVote.winner.id') === this.get('contenderB.id');
-  }.property('myVote', 'myVote.winner.id', 'contenderB.id'),
+  }),
 });

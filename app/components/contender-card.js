@@ -1,17 +1,18 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-  showBlind: function(){
+  showBlind: computed('bracketClosed', 'isBlind', 'isOwner', function(){
     return !this.get('bracketClosed') && !this.get('isOwner') && this.get('isBlind');
-  }.property('bracketClosed', 'isBlind', 'isOwner'),
-  showScores: function(){
+  }),
+  showScores: computed('matchIsClosed', 'isOwner', function(){
     return this.get('matchIsClosed') || this.get('isOwner');
-  }.property('matchIsClosed', 'isOwner'),
+  }),
 
   actions: {
     contenderClicked: function(contender){
-      this.sendAction('contenderClicked', contender);
+      get(this, 'contenderClicked')(contender);
     }
   }
 });

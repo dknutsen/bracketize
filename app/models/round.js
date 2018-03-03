@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { equal } from '@ember/object/computed';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -12,7 +12,7 @@ export default DS.Model.extend({
   bracket: DS.belongsTo('bracket'),
   matches: DS.hasMany('match'),
 
-  isWaiting: Ember.computed.equal('status', 'waiting'),
-  isOpen: Ember.computed.equal('status', 'open'),
-  isClosed: Ember.computed.equal('status', 'closed'),
+  isWaiting: equal('status', 'waiting'),
+  isOpen: equal('status', 'open'),
+  isClosed: equal('status', 'closed'),
 });

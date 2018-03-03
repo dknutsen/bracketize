@@ -1,17 +1,18 @@
-import Ember from 'ember';
+import { hash, all } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 import RandomWords from "../utils/random-words";
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
-  session: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
+  session: service(),
 
 
-  createBracket: function(bracketData, contendersData){
+  createBracket(bracketData, contendersData){
     let self = this;
     // FIXME: this is probably overcomplicated and could be refactored
     let bracket = self._createBracket(bracketData).then(bracket => bracket);
     let contenders = self._createContenders(contendersData).then(contenders => contenders);
-    return Ember.RSVP.hash({bracket, contenders}).then((hash)=>{
+    return hash({bracket, contenders}).then((hash)=>{
       return self._addContendersToBracket(hash.bracket, hash.contenders).then(()=>{
         return self._createRounds(hash.bracket).then(()=>{
           return hash.bracket;
@@ -24,7 +25,7 @@ export default Ember.Service.extend({
   // we used to have all these open/close round/match methods
   // on the respective models and honestly that's not terrible
   // either...
-  openRound: function(round){
+  openRound(round){
     let self = this;
     round.set('status', 'open');
     round.get('matches').forEach((match) => {
@@ -32,7 +33,7 @@ export default Ember.Service.extend({
     });
     round.save();
   },
-  closeRound: function(round){
+  closeRound(round){
     let self = this;
     round.set('status', 'closed');
     round.get('matches').forEach((match) => {
@@ -40,11 +41,11 @@ export default Ember.Service.extend({
     });
     round.save();
   },
-  openMatch: function(match){
+  openMatch(match){
     match.set('status', 'open');
     match.save();
   },
-  closeMatch: function(match){
+  closeMatch(match){
     match.set('status', 'closed');
     if(match.get('votesA') >= match.get('votesB')) {
       match.set('winner', match.get('contenderA'));
@@ -61,7 +62,7 @@ export default Ember.Service.extend({
   // Private methods
   //
 
-  _createBracket: function(data){
+  _createBracket(data){
     let name = data.name;
     let blind = data.blind;
     let type = data.type;
@@ -88,7 +89,7 @@ export default Ember.Service.extend({
     });
   },
 
-  _createContenders: function(data){
+  _createContenders(data){
     let self = this;
     let contenders = data;
     let owner = this.get('session.uid');
@@ -106,17 +107,17 @@ export default Ember.Service.extend({
         return cModel;
       });
     });
-    return Ember.RSVP.all(promises);
+    return all(promises);
   },
 
-  _addContendersToBracket: function(bracket, contenders){
+  _addContendersToBracket(bracket, contenders){
     contenders.forEach(cModel => {
       bracket.get('contenders').addObject(cModel);
     });
     return bracket.save();
   },
 
-  _createRounds: function(bracket){
+  _createRounds(bracket){
     // just make sure the bracket doesn't already have rounds
     let rounds = bracket.get('rounds');
     if(rounds.get('length')) {
@@ -162,11 +163,11 @@ export default Ember.Service.extend({
     }
     // wait until all matches are saved, then save all rounds,
     // and once those are done, save the bracket
-    return Ember.RSVP.all(matchPromises).then(() => {
+    return all(matchPromises).then(() => {
       newRounds.forEach(round => {
         roundPromises.push(round.save());
       });
-      return Ember.RSVP.all(roundPromises).then(() => {
+      return all(roundPromises).then(() => {
         return bracket.save();
       });
     });
@@ -178,7 +179,7 @@ export default Ember.Service.extend({
 
 
   // prob a cleaner way to do this, maybe refactor to a util?
-  _powersOf2: {
+  _powersOf2: Object.freeze({
     1: 0,
     2: 1,
     4: 2,
@@ -186,10 +187,10 @@ export default Ember.Service.extend({
     16: 4,
     32: 5,
     64: 6
-  },
+  }),
 
   // prob a cleaner way to do this, maybe refactor to a util?
-  _roundName: function(roundContenders){
+  _roundName(roundContenders){
     let name = "";
     if(roundContenders === 2) {
       name = 'Final';

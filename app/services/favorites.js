@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  firebaseApp: Ember.inject.service(),
-  store: Ember.inject.service(),
+export default Service.extend({
+  firebaseApp: service(),
+  store: service(),
 
   init: function(){
     let self = this;

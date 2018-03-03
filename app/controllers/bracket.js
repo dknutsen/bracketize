@@ -1,14 +1,15 @@
-import Ember from 'ember';
-import isNumeric from '../utils/is-numeric';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  backend: Ember.inject.service(),
+export default Controller.extend({
+  backend: service(),
 
-  isOwner: function(){
+  isOwner: computed(function(){
     return this.get('model.bracket.owner') === this.get('session.uid');
-  }.property(),
+  }),
 
-  currentRound: Ember.computed('model.bracket.status', 'model.rounds', function(){
+  currentRound: computed('model.{bracket.status,rounds}', function(){
     let bracket = this.get('model.bracket');
     if(!bracket.get('isOpen')) {
       return null;
@@ -16,7 +17,7 @@ export default Ember.Controller.extend({
     return bracket.get('rounds').objectAt(bracket.get('status'));
   }),
 
-  roundStatusButtonLabel: Ember.computed('model.bracket.status', function(){
+  roundStatusButtonLabel: computed('model.bracket.status', function(){
     if(this.get('model.bracket.isWaiting')) {
       return "Open Bracket";
     } else if(this.get('model.bracket.isOpen')) {

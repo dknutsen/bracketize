@@ -1,24 +1,28 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  backend: Ember.inject.service(),
+export default Controller.extend({
+  backend: service(),
 
-  queryParams: ['name', 'numContenders', 'blind', 'type', 'visibility'],
+  queryParams: Object.freeze(['name', 'numContenders', 'blind', 'type', 'visibility']),
   name: null,
   blind: false, 
-  numContendersOptions: [2, 4, 8, 16, 32, 64],
+  numContendersOptions: Object.freeze([2, 4, 8, 16, 32, 64]),
   numContenders: 16,
-  typeOptions: ["Voted"/*, "Predictive"*/],
+  typeOptions: Object.freeze(["Voted"/*, "Predictive"*/]),
   type: "Voted",
-  visibilityOptions: ["Private", "Shared", "Public"],
+  visibilityOptions: Object.freeze([/*"Private", "Shared",*/ "Public"]),
   visibility: "Private",
 
-  contenders: [],
-  columns: ['name'],
+  //contenders: [],
+  //columns: ['name'],
 
-  setup: function(){
+  init() {
+    this._super(...arguments);
+    this.contenders = [];
+    this.columns = ['name'];
     this.send('numContendersChanged', this.get('numContenders'));
-  }.on('init'),
+  },
 
   actions: {
     numContendersChanged: function(value){

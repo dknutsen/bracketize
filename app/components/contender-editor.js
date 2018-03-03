@@ -1,23 +1,24 @@
-import Ember from 'ember';
+import { computed, get, set } from '@ember/object';
+import Component from '@ember/component';
 import parseCSV from "../utils/parse-csv";
 import parseJSON from "../utils/parse-json";
 
-export default Ember.Component.extend({
+export default Component.extend({
   // if we are in 'quickInput' mode or not (CSV or JSON editor)
   quickInput: false,
 
   // which input mode we're currently in 
   inputMode: 'csv',
   
-  parsedContenders: function(){
+  parsedContenders: computed('csvValue', function(){
     let inputMode = this.get('inputMode');
     let textValue = this.get('textValue');
     let parsed = inputMode === 'csv' ? parseCSV(textValue) : parseJSON(textValue);
     let parsedObjects = this.arraysToObject(parsed);
     return parsedObjects;
-  }.property('csvValue'),
+  }),
 
-  arraysToObject: function(data){
+  arraysToObject(data){
     let keys = data.shift();
     let output = [];
     for (let i = 0; i < data.length; i++) {
@@ -33,7 +34,7 @@ export default Ember.Component.extend({
   // table
   //contenders: [],
   //columns: ['name'],
-  headers: function(){
+  headers: computed('contenders', 'contenders.[]', 'columns', 'columns.[]', function(){
     let headers = {};
     this.get('contenders').forEach((contender) => {
       for (var property in contender) {
@@ -44,13 +45,13 @@ export default Ember.Component.extend({
       }
     }); 
     return headers;
-  }.property('contenders', 'contenders.[]', 'columns', 'columns.[]'),
+  }),
 
 
 //  getContendersFromTable: function(){
 //    return JSON.parse(JSON.stringify(this.get('contenders')));
 //  },
-  getContendersFromCSV: function(){
+  getContendersFromCSV(){
     let csvInputText = this.get('csvInputText');
     try {
       let parsed = parseCSV(csvInputText);
@@ -60,7 +61,7 @@ export default Ember.Component.extend({
       return null;
     }
   },
-  getContendersFromJSON: function(){
+  getContendersFromJSON(){
     let jsonInputText = this.get('jsonInputText');
     try {
       //let parsed = parseJSON(jsonInputText);
@@ -70,7 +71,7 @@ export default Ember.Component.extend({
       return null;
     }
   },
-  contendersToCSV: function(){
+  contendersToCSV(){
     let contenders = this.get('contenders');
     let columns = this.get('columns');
     // set CSV text
@@ -84,7 +85,7 @@ export default Ember.Component.extend({
     });
     return csvText;
   },
-  contendersToJSON: function(){
+  contendersToJSON(){
     return JSON.stringify(this.get('contenders'), null, 2);
   },
   setContenderDataFromObjects(objects){
@@ -100,7 +101,7 @@ export default Ember.Component.extend({
       for (var property in cobj) {
         if (cobj.hasOwnProperty(property)) {
           let lowerProp = property.toLowerCase();
-          Ember.set(contenders[i], lowerProp, cobj[property]);
+          set(contenders[i], lowerProp, cobj[property]);
           columns[lowerProp] = true;
         }
       }
@@ -143,10 +144,10 @@ export default Ember.Component.extend({
     },
 
     addColumn: function(){
-      this.sendAction('addColumn');
+      get(this, 'addColumn')();
     },
     deleteColumn: function(prop){
-      this.sendAction('deleteColumn', prop);
+      get(this, 'deleteColumn')(prop);
     },
 
     // column name editing
@@ -161,14 +162,7 @@ export default Ember.Component.extend({
         return;
       }
       this.set('editingColumn', null);
-      this.sendAction('columnNameChanged', prop, value);
+      get(this, 'columnNameChanged')(prop, value);
     },
   }
 });
-/*
-      let contenders = this.get('contenders');
-      contenders.forEach((contender)=>{
-        delete contender[prop];
-      });
-      this.set('conteders', contenders);
-*/
