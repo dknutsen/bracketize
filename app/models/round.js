@@ -1,18 +1,19 @@
 import { equal } from '@ember/object/computed';
 import DS from 'ember-data';
+const { attr, belongsTo, hasMany, Model } = DS;
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  index: DS.attr('number'),
+export default Model.extend({
+  name: attr('string'),
+  index: attr('number'),
 
-  owner: DS.attr('string'),
+  owner: attr('string'),
 
-  status: DS.attr('string'), // waiting, open, closed
+  status: attr('string'), // waiting, open, closed
 
-  bracket: DS.belongsTo('bracket'),
-  matches: DS.hasMany('match'),
+  bracket: belongsTo('bracket'),
+  matches: hasMany('match'),
 
   isWaiting: equal('status', 'waiting'),
   isOpen: equal('status', 'open'),
-  isClosed: equal('status', 'closed'),
+  isClosed: equal('status', 'closed')
 });

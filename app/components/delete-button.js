@@ -5,25 +5,25 @@ export default Component.extend({
   text: null, // optional, if not provided, fa-times is used
   icon: 'times',
 
-  confirmText: null,//'Sure?',
+  confirmText: null,
   confirmIcon: 'question-circle',
   confirmState: false, // if true we are confirming
 
-  sizeClass: computed('size', function(){
+  sizeClass: computed('size', function() {
     return this.get('size') ? `btn-${this.get('size')}` : '';
   }),
 
-  focusOut(){
+  focusOut() {
     this.set('confirmState', false);
   },
 
   actions: {
-    handleClick: function(){
-      if(this.get('confirmState')) {
+    handleClick() {
+      if (this.get('confirmState')) {
         get(this, 'onDelete')();
       } else {
         this.toggleProperty('confirmState');
       }
-    },
+    }
   }
 });

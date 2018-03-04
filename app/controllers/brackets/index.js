@@ -8,7 +8,7 @@ export default Controller.extend({
   userId: alias('session.uid'),
 
   actions: {
-    deleteBracket: function(bracket){
+    deleteBracket(bracket) {
       bracket.destroyRecord();
     }
   }

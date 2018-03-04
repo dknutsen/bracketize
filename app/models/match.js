@@ -1,51 +1,52 @@
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+const { attr, belongsTo, hasMany, Model } = DS;
 
-export default DS.Model.extend({
+export default Model.extend({
   session: service(),
 
-  owner: DS.attr('string'),
+  owner: attr('string'),
 
-  contenderA: DS.belongsTo('contender', { async: true, inverse: null }),
-  contenderB: DS.belongsTo('contender', { async: true, inverse: null }),
+  contenderA: belongsTo('contender', { async: true, inverse: null }),
+  contenderB: belongsTo('contender', { async: true, inverse: null }),
 
-  winner: DS.belongsTo('contender', { async: true, inverse: null }),
+  winner: belongsTo('contender', { async: true, inverse: null }),
 
-  votes: DS.hasMany('vote', { async: true, inverse: null }),
-  //predictions: DS.hasMany('prediction'),
+  votes: hasMany('vote', { async: true, inverse: null }),
+  // predictions: hasMany('prediction'),
 
-  bracket: DS.belongsTo('bracket'),
+  bracket: belongsTo('bracket'),
 
-  round: DS.belongsTo('round'),
+  round: belongsTo('round'),
 
   // i think a match should have it's own open/closed setting
   // in addition to rounds.
   // in a voted bracket a match can only be open for voting if the round is open
   // in predictive bracket a match can only be open before the bracket has started(?)
-  status: DS.attr('string'), // waiting, open, closed
+  status: attr('string'), // waiting, open, closed
 
   /*
   * computed properties
   */
-  votesA: computed('votes', 'votes.@each.winner', function(){
+  votesA: computed('votes', 'votes.@each.winner', function() {
     return this.get('votes').filterBy('winner.id', this.get('contenderA.id')).get('length');
   }),
-  votesB: computed('votes', 'votes.@each.winner', function(){
+  votesB: computed('votes', 'votes.@each.winner', function() {
     return this.get('votes').filterBy('winner.id', this.get('contenderB.id')).get('length');
   }),
 
-  winnerIsA: computed('winner', 'contenderA', function(){
+  winnerIsA: computed('winner', 'contenderA', function() {
     return this.get('winner.id') && this.get('contenderA.id') && this.get('winner.id') === this.get('contenderA.id');
   }),
-  winnerIsB: computed('winner', 'contenderB', function(){
+  winnerIsB: computed('winner', 'contenderB', function() {
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') === this.get('contenderB.id');
   }),
 
-  loserIsA: computed('winner', 'contenderA', function(){
+  loserIsA: computed('winner', 'contenderA', function() {
     return this.get('winner.id') && this.get('contenderA.id') && this.get('winner.id') !== this.get('contenderA.id');
   }),
-  loserIsB: computed('winner', 'contenderB', function(){
+  loserIsB: computed('winner', 'contenderB', function() {
     return this.get('winner.id') && this.get('contenderB.id') && this.get('winner.id') !== this.get('contenderB.id');
   }),
 
@@ -54,13 +55,13 @@ export default DS.Model.extend({
   isClosed: computed.equal('status', 'closed'),
 
   // used for tracking the current user's vote
-  myVote: computed('votes.{[],@each.owner}', function(){
+  myVote: computed('votes.{[],@each.owner}', function() {
     return this.get('votes').findBy('owner', this.get('session.uid')) || null;
   }),
-  iVotedA: computed('myVote', 'myVote.winner.id', 'contenderA.id', function(){
+  iVotedA: computed('myVote', 'myVote.winner.id', 'contenderA.id', function() {
     return this.get('myVote.winner.id') === this.get('contenderA.id');
   }),
-  iVotedB: computed('myVote', 'myVote.winner.id', 'contenderB.id', function(){
+  iVotedB: computed('myVote', 'myVote.winner.id', 'contenderB.id', function() {
     return this.get('myVote.winner.id') === this.get('contenderB.id');
-  }),
+  })
 });

@@ -3,19 +3,19 @@ import Route from '@ember/routing/route';
 export default Route.extend({
   queryParams: {
     name: {
-      replace: true,
+      replace: true
     },
     numContenders: {
-      replace: true,
+      replace: true
     },
     blind: {
-      replace: true,
+      replace: true
     },
     type: {
-      replace: true,
+      replace: true
     },
     visibility: {
-      replace: true,
-    },
+      replace: true
+    }
   }
 });

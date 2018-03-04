@@ -1,16 +1,16 @@
 import { computed, get, set } from '@ember/object';
 import Component from '@ember/component';
-import parseCSV from "../utils/parse-csv";
-import parseJSON from "../utils/parse-json";
+import parseCSV from '../utils/parse-csv';
+import parseJSON from '../utils/parse-json';
 
 export default Component.extend({
   // if we are in 'quickInput' mode or not (CSV or JSON editor)
   quickInput: false,
 
-  // which input mode we're currently in 
+  // which input mode we're currently in
   inputMode: 'csv',
-  
-  parsedContenders: computed('csvValue', function(){
+
+  parsedContenders: computed('csvValue', function() {
     let inputMode = this.get('inputMode');
     let textValue = this.get('textValue');
     let parsed = inputMode === 'csv' ? parseCSV(textValue) : parseJSON(textValue);
@@ -18,7 +18,7 @@ export default Component.extend({
     return parsedObjects;
   }),
 
-  arraysToObject(data){
+  arraysToObject(data) {
     let keys = data.shift();
     let output = [];
     for (let i = 0; i < data.length; i++) {
@@ -32,26 +32,25 @@ export default Component.extend({
   },
 
   // table
-  //contenders: [],
-  //columns: ['name'],
-  headers: computed('contenders', 'contenders.[]', 'columns', 'columns.[]', function(){
+  // contenders: [],
+  // columns: ['name'],
+  headers: computed('contenders', 'contenders.[]', 'columns', 'columns.[]', function() {
     let headers = {};
     this.get('contenders').forEach((contender) => {
-      for (var property in contender) {
+      for (let property in contender) {
         if (contender.hasOwnProperty(property)) {
           let header = property.capitalize();
           headers[header] = property;
         }
       }
-    }); 
+    });
     return headers;
   }),
 
-
-//  getContendersFromTable: function(){
-//    return JSON.parse(JSON.stringify(this.get('contenders')));
-//  },
-  getContendersFromCSV(){
+  // getContendersFromTable: function(){
+  //   return JSON.parse(JSON.stringify(this.get('contenders')));
+  // },
+  getContendersFromCSV() {
     let csvInputText = this.get('csvInputText');
     try {
       let parsed = parseCSV(csvInputText);
@@ -61,44 +60,46 @@ export default Component.extend({
       return null;
     }
   },
-  getContendersFromJSON(){
+  getContendersFromJSON() {
     let jsonInputText = this.get('jsonInputText');
     try {
-      //let parsed = parseJSON(jsonInputText);
+      // let parsed = parseJSON(jsonInputText);
       let parsed = JSON.parse(jsonInputText);
       return parsed;
     } catch(error) {
       return null;
     }
   },
-  contendersToCSV(){
+  contendersToCSV() {
     let contenders = this.get('contenders');
     let columns = this.get('columns');
     // set CSV text
-    let csvText = columns.join(',') + '\n';
+    let csvText = `${columns.join(',')}\n`;
     contenders.forEach((contender) => {
       let line = [];
       columns.forEach((column) => {
         line.push(contender[column]);
       });
-      csvText += line.join(',') + '\n';
+      csvText += `${line.join(',')}\n`;
     });
     return csvText;
   },
-  contendersToJSON(){
+  contendersToJSON() {
     return JSON.stringify(this.get('contenders'), null, 2);
   },
-  setContenderDataFromObjects(objects){
+  setContenderDataFromObjects(objects) {
     let contenders = this.get('contenders');
-//    let columns = this.get('columns');
-    
-    if(contenders.length !== objects.length){ return false; }
+    // let columns = this.get('columns');
 
-    let columns = {};   
+    if (contenders.length !== objects.length) {
+      return false;
+    }
 
-    for(var i = 0; i<objects.length; i++){
+    let columns = {};
+
+    for (let i = 0; i < objects.length; i++) {
       let cobj = objects[i];
-      for (var property in cobj) {
+      for (let property in cobj) {
         if (cobj.hasOwnProperty(property)) {
           let lowerProp = property.toLowerCase();
           set(contenders[i], lowerProp, cobj[property]);
@@ -111,11 +112,11 @@ export default Component.extend({
   },
 
   actions: {
-    tabChanged: function(newTab){
-      this.set('inputMode', newTab.replace('Tab',''));
+    tabChanged(newTab) {
+      this.set('inputMode', newTab.replace('Tab', ''));
     },
-    startQuickInput: function(){
-/*
+    startQuickInput() {
+      /*
       let contenders = this.get('contenders');
       let columns = this.get('columns');
       // set CSV text
@@ -127,42 +128,41 @@ export default Component.extend({
         });
         csvText += line.join(',') + '\n';
       });
-*/
+      */
       this.set('csvInputText', this.contendersToCSV());
       this.set('jsonInputText', this.contendersToJSON());
       this.set('quickInput', true);
     },
-    saveQuickInput: function(){
+    saveQuickInput() {
       let objects = this.getContendersFromCSV();
       let saved = this.setContenderDataFromObjects(objects);
-      if(saved) {
+      if (saved) {
         this.set('quickInput', false);
       }
     },
-    cancelQuickInput: function(){
+    cancelQuickInput() {
       this.set('quickInput', false);
     },
-
-    addColumn: function(){
+    addColumn() {
       get(this, 'addColumn')();
     },
-    deleteColumn: function(prop){
+    deleteColumn(prop) {
       get(this, 'deleteColumn')(prop);
     },
 
     // column name editing
-    editColumnName: function(header, prop){
+    editColumnName(header, prop) {
       this.set('editingColumn', prop);
       this.set('editingColumnValue', header);
     },
-    doneEditingColumnName: function(header, prop){
+    doneEditingColumnName(header, prop) {
       let value = this.get('editingColumnValue').toLowerCase();
       // validate
-      if(value === '' || value === 'name' || (this.get('headers')[value.capitalize()] && value !== prop)) {
+      if (value === '' || value === 'name' || (this.get('headers')[value.capitalize()] && value !== prop)) {
         return;
       }
       this.set('editingColumn', null);
       get(this, 'columnNameChanged')(prop, value);
-    },
+    }
   }
 });

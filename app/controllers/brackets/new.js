@@ -6,16 +6,23 @@ export default Controller.extend({
 
   queryParams: Object.freeze(['name', 'numContenders', 'blind', 'type', 'visibility']),
   name: null,
-  blind: false, 
+  blind: false,
   numContendersOptions: Object.freeze([2, 4, 8, 16, 32, 64]),
   numContenders: 16,
-  typeOptions: Object.freeze(["Voted"/*, "Predictive"*/]),
-  type: "Voted",
-  visibilityOptions: Object.freeze([/*"Private", "Shared",*/ "Public"]),
-  visibility: "Private",
+  typeOptions: Object.freeze([
+    'Voted'
+    // 'Predictive'
+  ]),
+  type: 'Voted',
+  visibilityOptions: Object.freeze([
+    // 'Private',
+    // 'Shared',
+    'Public'
+  ]),
+  visibility: 'Private',
 
-  //contenders: [],
-  //columns: ['name'],
+  // contenders: [],
+  // columns: ['name'],
 
   init() {
     this._super(...arguments);
@@ -25,36 +32,36 @@ export default Controller.extend({
   },
 
   actions: {
-    numContendersChanged: function(value){
+    numContendersChanged(value) {
       this.set('numContenders', value);
       let contenders = this.get('contenders');
       let columns = this.get('columns');
       let oldLength = contenders.get('length');
-      if(oldLength > value) {
+      if (oldLength > value) {
         contenders.removeAt(value, oldLength - value);
       } else {
-        for(var i=0; i<value-oldLength; i++) {
-          let newRow = {'name': ''};
-          for(var j=0; j<columns.length; j++){
+        for (let i = 0; i < value - oldLength; i++) {
+          let newRow = { 'name': '' };
+          for (let j = 0; j < columns.length; j++) {
             newRow[columns[j]] = '';
           }
           contenders.pushObject(newRow);
         }
       }
     },
-    addColumn: function(){
+    addColumn() {
       this.get('columns').addObject('new column');
       this.get('contenders').forEach((contender)=>{
         contender['new column'] = '';
       });
     },
-    deleteColumn: function(prop){
+    deleteColumn(prop) {
       this.get('columns').removeObject(prop);
       this.get('contenders').forEach((contender)=>{
         delete contender[prop];
       });
     },
-    columnNameChanged: function(prop, newProp){
+    columnNameChanged(prop, newProp) {
       this.get('columns').removeObject(prop);
       this.get('columns').addObject(newProp);
       this.get('contenders').forEach((contender)=>{
@@ -62,13 +69,13 @@ export default Controller.extend({
         delete contender[prop];
       });
     },
-    submit: function(bracketForm){
+    submit(bracketForm) {
       let self = this;
       let contenderData = this.get('contenders');
       self.get('backend').createBracket(bracketForm, contenderData).then((bracket)=>{
         self.transitionToRoute('bracket', bracket.get('id'));
       });
-    },
+    }
   }
 });
 

@@ -12,7 +12,7 @@ export default FirebaseAdapter.extend({
     ...
   */
   pathForType(modelName) {
-    const originalPath = this._super(modelName);
+    let originalPath = this._super(modelName);
     return `publicData/${originalPath}`;
   }
 });

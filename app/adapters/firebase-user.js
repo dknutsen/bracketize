@@ -19,7 +19,7 @@ export default FirebaseAdapter.extend({
 
   */
   pathForType(modelName) {
-    const originalPath = this._super(modelName);
+    let originalPath = this._super(modelName);
     return `userData/${this.get('session.uid')}/${originalPath}`;
   }
 });

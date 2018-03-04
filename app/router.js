@@ -9,25 +9,25 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('login');
   this.route('signup');
-  this.route('welcome', {path: '/'});
+  this.route('welcome', { path: '/' });
 
   // brackets
-  this.authenticatedRoute('bracket', { path:'/brackets/:id' });
+  this.authenticatedRoute('bracket', { path: '/brackets/:id' });
   this.authenticatedRoute('brackets', function() {
     this.route('new');
   });
 
   // contenders
-  this.authenticatedRoute('contender', { path:'/contenders/:id' });
+  this.authenticatedRoute('contender', { path: '/contenders/:id' });
   this.authenticatedRoute('contenders', function() {
-    //this.route('new');
+    // this.route('new');
   });
 
   // favorites
   this.authenticatedRoute('favorites');
 
   // matches
-  this.authenticatedRoute('match', { path:'/matches/:id' });
+  this.authenticatedRoute('match', { path: '/matches/:id' });
 });
 
 export default Router;

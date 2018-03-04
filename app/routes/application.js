@@ -4,11 +4,11 @@ import Route from '@ember/routing/route';
 export default Route.extend({
   firebaseApp: service(),
 
-  afterModel: function(){
+  afterModel() {
     // if we want to auto-create reocrds at any point
     /*
     var self = this;
-    self.store.findRecord('item', "root").catch(function(error){
+    self.store.findRecord('item', "root").catch(function(error) {
       var root = self.store.createRecord('item', {
         title: "root"
       });
@@ -20,16 +20,16 @@ export default Route.extend({
 
   actions: {
     // this is for non-firebase auth providers (eg google, facebook, etc)
-    signIn: function(provider) {
-      this.get('session').open('firebase', { provider: provider}).then(() => {
-        if(this.get('session.attemptedTransition')){
+    signIn(provider) {
+      this.get('session').open('firebase', { provider }).then(() => {
+        if (this.get('session.attemptedTransition')) {
           this.get('session.attemptedTransition').retry();
         } else {
           this.transitionTo('/');
         }
       });
     },
-    signOut: function() {
+    signOut() {
       this.get('session').close().then(() => {
         this.store.unloadAll();
         this.transitionTo('/');
@@ -38,7 +38,7 @@ export default Route.extend({
     accessDenied() {
       this.transitionTo('login');
     },
-    reloadApp(){
+    reloadApp() {
       window.location.reload();
     }
   }

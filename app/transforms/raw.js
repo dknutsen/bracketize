@@ -1,6 +1,7 @@
 import DS from 'ember-data';
+const { Transform } = DS;
 
-export default DS.Transform.extend({
+export default Transform.extend({
   deserialize(serialized) {
     return serialized;
   },

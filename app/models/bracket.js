@@ -1,26 +1,27 @@
 import { computed } from '@ember/object';
 import { not, or, equal, and, sort } from '@ember/object/computed';
 import DS from 'ember-data';
+const { attr, hasMany, Model } = DS;
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
+export default Model.extend({
+  name: attr('string'),
 
-  owner: DS.attr('string'),
+  owner: attr('string'),
 
-  // Bracket Type 
-  // voted - Voted is like the beer bracket, to determine who wins. 
-  //         With voted each user votes on who the winner was. 
+  // Bracket Type
+  // voted - Voted is like the beer bracket, to determine who wins.
+  //         With voted each user votes on who the winner was.
   //         With predictive the users predict who the winner will be.
-  // predictive - Predictive is to predict who wins (contender wins). 
-  //              Closest predictive bracket wins (contender wins and 
-  //              causes a user to win). 
-  type: DS.attr('string'),
- 
-  // Blind? 
+  // predictive - Predictive is to predict who wins (contender wins).
+  //              Closest predictive bracket wins (contender wins and
+  //              causes a user to win).
+  type: attr('string'),
+
+  // Blind?
   // if blind then instead of showing contender names(/data?) it shows
-  // fake names. Real names are only shown to bracket owner. 
+  // fake names. Real names are only shown to bracket owner.
   // only applies to 'voted'?
-  blind: DS.attr('boolean'), 
+  blind: attr('boolean'),
 
   // Bracket Status
   // what round the bracket is in (how should this work?)
@@ -30,23 +31,22 @@ export default DS.Model.extend({
   // - waiting: new users can join, bracket settings can be changed
   // - round_index: bracket settings cannot change, no noobs
   // - closed: view only, bracket is done
-  status: DS.attr('string'),
-  
+  status: attr('string'),
+
   // Bracket Permissions
   // who can see this bracket (private, shared, public)
-  visibility: DS.attr('string'),
+  visibility: attr('string'),
   // who can participate in this bracket (private, shared, public)
-  interactivity: DS.attr('string'),
+  interactivity: attr('string'),
 
-  seedProperty: DS.attr('string'),
-  seedAscending: DS.attr('boolean'),
+  seedProperty: attr('string'),
+  seedAscending: attr('boolean'),
 
-  contenders: DS.hasMany('contender', { async: true, inverse: null }),
+  contenders: hasMany('contender', { async: true, inverse: null }),
 
-  rounds: DS.hasMany('round', { async: true, inverse: null }),
+  rounds: hasMany('round', { async: true, inverse: null }),
 
-
-  /* 
+  /*
   * Computed Properties
   */
   isOpen: not('isNotOpen'),
@@ -57,32 +57,31 @@ export default DS.Model.extend({
   isNotWaiting: not('isWaiting'),
   isBlind: and('isNotClosed', 'blind'),
 
-
-  numContenders: computed('contenders.length', function(){
+  numContenders: computed('contenders.length', function() {
     return this.get('contenders.length');
   }),
-  sortDefinition: computed('seedProperty', 'seedAscending', function(){
+  sortDefinition: computed('seedProperty', 'seedAscending', function() {
     let seedProp = this.get('seedProperty');
-    if(seedProp !== 'name') {
+    if (seedProp !== 'name') {
       seedProp = `attributes.${seedProp}`;
     }
-    return [`${seedProp}${this.get('seedAscending') ? '':':desc'}`];
+    return [`${seedProp}${this.get('seedAscending') ? '' : ':desc'}`];
   }),
   sortedContenders: sort('contenders', 'sortDefinition'),
 
-  isMoreRounds: computed('status', 'rounds.length', function(){
+  isMoreRounds: computed('status', 'rounds.length', function() {
     return this.get('status') !== 'closed' && this.get('status') < this.get('rounds.length') - 1;
   }),
-  nextStatus: computed('status', function(){
+  nextStatus: computed('status', function() {
     let s = this.get('status');
-    if(s === 'waiting') {
+    if (s === 'waiting') {
       return 0;
-    } else if(this.get('isMoreRounds')) {
+    } else if (this.get('isMoreRounds')) {
       return parseInt(s) + 1;
-    } else if(!this.get('isClosed')){
+    } else if (!this.get('isClosed')) {
       return 'closed';
     } else {
       return null;
     }
-  }),
+  })
 });
