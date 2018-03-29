@@ -8,7 +8,7 @@ export default Controller.extend({
   name: null,
   blind: false,
   numContendersOptions: Object.freeze([2, 4, 8, 16, 32, 64]),
-  numContenders: 16,
+  numContenders: 8,
   typeOptions: Object.freeze([
     'Voted'
     // 'Predictive'
@@ -26,6 +26,7 @@ export default Controller.extend({
 
   init() {
     this._super(...arguments);
+    this.form = {};
     this.contenders = [];
     this.columns = ['name'];
     this.send('numContendersChanged', this.get('numContenders'));
@@ -69,8 +70,9 @@ export default Controller.extend({
         delete contender[prop];
       });
     },
-    submit(bracketForm) {
+    submit() {
       let self = this;
+      let bracketForm = this.getProperties('name', 'numContenders', 'type', 'visibility', 'seedProperty', 'seedAscending', 'blind');
       let contenderData = this.get('contenders');
       self.get('backend').createBracket(bracketForm, contenderData).then((bracket)=>{
         self.transitionToRoute('bracket', bracket.get('id'));

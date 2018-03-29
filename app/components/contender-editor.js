@@ -9,6 +9,8 @@ export default Component.extend({
 
   // which input mode we're currently in
   inputMode: 'csv',
+  inputCSV: computed.equal('inputMode', 'csv'),
+  inputJSON: computed.equal('inputMode', 'json'),
 
   parsedContenders: computed('csvValue', function() {
     let inputMode = this.get('inputMode');
@@ -112,8 +114,8 @@ export default Component.extend({
   },
 
   actions: {
-    tabChanged(newTab) {
-      this.set('inputMode', newTab.replace('Tab', ''));
+    tabChanged(mode) {
+      this.set('inputMode', mode);
     },
     startQuickInput() {
       /*

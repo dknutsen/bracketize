@@ -1,27 +1,37 @@
-<div class="contender-editor">
-{{#if quickInput}}
+<div class="contender-editor w-full">
 
-  {{#bs-tab onChange=(action 'tabChanged') as |tab|}}
-    {{#tab.pane id="csvTab" title="CSV"}}
-      {{textarea value=csvInputText class="csv-textarea"}}
-    {{/tab.pane}}
-    {{#tab.pane id="jsonTab" title="JSON"}}
-      {{textarea value=jsonInputText class="json-textarea"}}
-    {{/tab.pane}}
-  {{/bs-tab}}
-
-  <div id="contender-buttons">
-    <button class="btn btn-danger top-right" {{action 'cancelQuickInput'}}>Cancel</button>
-    <button class="btn btn-primary top-right" {{action 'saveQuickInput'}}>Save</button>
-  </div>
-{{else}}
-
-  <button class="btn btn-info" {{action 'startQuickInput'}}>Quick edit</button>
-  <div id="contender-buttons">
-    <button class="btn btn-success" {{action 'addColumn'}}>+ Column</button>
+  {{!-- header area --}}
+  <div class="inline-flex w-full">
+    {{#if quickInput}}
+    <button {{action 'tabChanged' 'json'}} class="hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l {{if inputJSON 'bg-grey' 'bg-grey-light'}}">
+      JSON
+    </button>
+    <button {{action 'tabChanged' 'csv'}} class="hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r {{if inputCSV 'bg-grey' 'bg-grey-light'}}">
+      CSV
+    </button>
+    <div class="flex-grow"></div>
+    <button class="bg-red-dark text-white py-2 px-4" {{action 'cancelQuickInput'}}>Cancel</button>
+    <button class="bg-blue-dark text-white py-2 px-4" {{action 'saveQuickInput'}}>Save</button>
+    {{else}}
+    <button class="bg-green-dark text-white py-2 px-4" {{action 'addColumn'}}>+ Column</button>
+    <div class="flex-grow"></div>
+    <button class="bg-blue-dark text-white py-2 px-4" {{action 'startQuickInput'}}>Quick edit</button>
+    {{/if}}
   </div>
 
-  <div class="table-scroll-wrapper">
+
+  {{!-- table/editor area --}}
+  <div class="flex w-full h-full">
+  {{#if quickInput}}
+
+    {{#if inputCSV}}
+      {{textarea value=csvInputText class="csv-textarea border flex-grow h-48"}}
+    {{else}}
+      {{textarea value=jsonInputText class="json-textarea border flex-grow h-48"}}
+    {{/if}}
+
+  {{else}}
+
     <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
@@ -50,8 +60,8 @@
         {{/each}}
       </tbody>
     </table>
-  </div>
-  {{!-- winner could use   <td class="table-success">...</td>  --}}
 
-{{/if}}
+  {{/if}}
+
+  </div>
 </div>

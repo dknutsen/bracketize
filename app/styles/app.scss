@@ -1,11 +1,7 @@
 @import 'tailwind';
+@import 'tables';
 
 @import "pod-styles"; // for ember-component-css
 @import 'welcome';
 @import 'brackets/new';
-@import 'components/contender-editor';
-
-.main-container {
-  margin-top: 4.5rem;
-}
 
