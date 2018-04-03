@@ -1,10 +1,14 @@
 <div class="container">
+  <div class="flex items-center justify-between flex-wrap">
   {{!-- header, bracket name, etc --}}
-  <h1>{{model.bracket.name}}{{#if model.bracket.isOpen}} - {{currentRound.name}}{{/if}}</h1>
+  <h1 class="mb-4">
+    <span class="hidden md:inline">{{#link-to 'brackets'}}Brackets{{/link-to}} / </span>
+    {{model.bracket.name}}
+    {{#if model.bracket.isOpen}}<span class="hidden sm:inline"> - {{currentRound.name}}</span>{{/if}}
+  </h1>
 
-  <div class="">
   {{#if isOwner}}
-    <button {{action 'nextStatus'}} class="btn btn-primary" disabled={{if model.bracket.isClosed 'true'}}>{{roundStatusButtonLabel}}</button>
+    <button {{action 'nextStatus'}} class="bg-blue-dark text-white py-2 px-4" disabled={{if model.bracket.isClosed 'true'}}>{{roundStatusButtonLabel}}</button>
   {{/if}}
   </div>
 

@@ -1,18 +1,18 @@
 <div class="container">
-  <h1>{{#link-to 'bracket' model.match.bracket.id}}{{model.match.bracket.name}}{{/link-to}}
-  <div class="pull-right">
-    <button {{action 'gotoMatch' prevMatch}} class="btn btn-primary" disabled={{unless prevMatch 'true'}}>Prev</button>
-    <button {{action 'gotoMatch' nextMatch}} class="btn btn-primary" disabled={{unless nextMatch 'true'}}>Next</button>
+  <div class="flex items-center justify-between flex-wrap">
+    <h1 class="mb-4">{{#link-to 'bracket' model.match.bracket.id}}{{model.match.bracket.name}}{{/link-to}}<span class="hidden sm:inline"> / {{model.match.round.name}}</span></h1>
+    <div class="flex-grow"></div>
+    <button {{action 'gotoMatch' prevMatch}} class="bg-blue-dark text-white px-4 py-2 mx-1" disabled={{unless prevMatch 'true'}}>Prev</button>
+    <button {{action 'gotoMatch' nextMatch}} class="bg-blue-dark text-white px-4 py-2 mx-1" disabled={{unless nextMatch 'true'}}>Next</button>
   </div>
-  </h1>
-  <h4>
+  <h4 class="mb-3">
     {{#if model.match.isWaiting}}Waiting for voting{{/if}}
     {{#if model.match.isOpen}}Open for voting ({{model.match.votes.length}}){{/if}}
     {{#if model.match.isClosed}}Closed for voting ({{model.match.votes.length}}){{/if}}
   </h4>
 
-  <div class="row">
-    <div class="col-xs-12 col-lg-6">
+  <div class="flex flex-wrap items-center justify-between">
+    <div class="w-full sm:w-2/5 mb-4">
       {{contender-card
         contender=model.match.contenderA 
         score=model.match.votesA
@@ -26,7 +26,11 @@
       }}
     </div>
 
-    <div class="col-xs-12 col-lg-6">
+    <div class="w-full sm:w-1/5 text-center font-bold my-4">
+      vs
+    </div>
+
+    <div class="w-full sm:w-2/5 mb-4">
       {{contender-card
         contender=model.match.contenderB
         score=model.match.votesB

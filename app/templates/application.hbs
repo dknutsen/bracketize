@@ -1,3 +1,33 @@
+
+
+
+<nav class="flex items-center justify-between flex-wrap bg-blue-dark p-3 pin-t fixed w-full">
+  <div class="flex items-center flex-no-shrink text-white mr-6">
+    {{#link-to "welcome" class="font-semibold text-xl tracking-tight text-white no-underline"}}[bracketize]{{/link-to}}
+  </div>
+  <div class="block lg:hidden">
+    <button {{action 'toggleNav'}} class="flex items-center px-3 py-2 border rounded text-blue-lighter border-blue-light hover:text-white hover:border-white">
+      <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+    </button>
+  </div>
+  <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto {{if toggleNav 'block' 'hidden'}}">
+    <div class="text-sm lg:flex-grow">
+      {{#link-to 'brackets' class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4 no-underline"}}Brackets{{/link-to}}
+      {{#link-to 'favorites' class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4 no-underline"}}Favorites{{/link-to}}
+    </div>
+    <div>
+      {{#if session.currentUser}}
+        <a {{action "signOut"}} class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-dark hover:bg-white mt-4 lg:mt-0">{{fa-icon 'sign-out'}} Sign Out</a>
+      {{else}}
+        {{#link-to "login" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-dark hover:bg-white mt-4 lg:mt-0"}}{{fa-icon 'sign-in'}} Sign In{{/link-to}}
+      {{/if}}
+    </div>
+  </div>
+</nav>
+
+
+
+{{!--
 {{#bs-navbar position="fixed-top" as |navbar|}}
   {{#link-to "welcome" class="navbar-brand mr-auto"}}[bracketize]{{/link-to}}
   {{navbar.toggle}}
@@ -15,8 +45,11 @@
     {{/navbar.nav}}
   {{/navbar.content}}
 {{/bs-navbar}}
+--}}
 
-<div class="main-container">
+<div class="w-full h-16"></div>
+
+<div class="container mx-auto my-4 px-4">
 {{outlet}}
 </div>
 

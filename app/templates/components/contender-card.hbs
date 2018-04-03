@@ -1,4 +1,4 @@
-
+{{!--
 <div class="card {{if winner 'bg-success'}} {{if matchIsOpen 'open'}}" {{action 'contenderClicked' contender}}>
   <h4 class="card-header">{{contender-favorite contender=contender}}&nbsp;&nbsp;{{#unless showBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{#if showScores}}{{score}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span></h4>
   <div class="card-body">
@@ -9,5 +9,19 @@
     </ul>
   </div>
 </div>
+--}}
 
-
+<div class="max-w-sm rounded overflow-hidden shadow-lg {{if winner 'bg-green-light'}} {{if matchIsOpen 'open'}}" {{action 'contenderClicked' contender}}>
+  <div class="px-6 py-4">
+    <div class="font-bold text-xl mb-4">
+      {{contender-favorite contender=contender}}&nbsp;&nbsp;{{#unless showBlind}}{{contender.name}}{{else}}{{contender.blindName}}{{/unless}} <span class="pull-right">{{#if showScores}}{{score}}{{else}}<i class="fa fa-eye-slash"></i>{{/if}}</span>
+    </div>
+    <div class="text-grey-darker text-base">
+      <ul class="list-reset">
+        {{#each-in contender.attributes as |key value|}}
+        <li class="">{{key}}: {{#unless showBlind}}{{value}}{{else}}<i class="fa fa-eye-slash"></i>{{/unless}}</li>
+        {{/each-in}}
+      </ul> 
+    </div>
+  </div>
+</div>
